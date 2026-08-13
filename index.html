@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ColorFly — Generador de paletas de colores</title>
+        <meta
+            name="description"
+            content="Generador de paletas de colores aleatorias en formato HEX y HSL."
+        />
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <header>
+            <img src="assets/isotipo.svg" alt="" width="48" height="48" />
+            <h1>ColorFly</h1>
+            <p>Generá paletas de colores en un clic.</p>
+        </header>
+
+        <main>
+            <section aria-labelledby="config-heading">
+                <h2 id="config-heading">Configurar paleta</h2>
+
+                <fieldset>
+                    <legend>Elige la cantidad de colores que necesitas</legend>
+
+                    <input
+                        type="radio"
+                        id="size-6"
+                        name="paletteSize"
+                        value="6"
+                        checked
+                    />
+                    <label for="size-6">6</label>
+
+                    <input
+                        type="radio"
+                        id="size-8"
+                        name="paletteSize"
+                        value="8"
+                    />
+                    <label for="size-8">8</label>
+
+                    <input
+                        type="radio"
+                        id="size-9"
+                        name="paletteSize"
+                        value="9"
+                    />
+                    <label for="size-9">9</label>
+                </fieldset>
+            </section>
+
+            <div class="acciones">
+                <button type="button" id="generar-btn">Generar Paleta</button>
+            </div>
+
+            <section aria-labelledby="paleta-heading">
+                <h2 id="paleta-heading">Tu paleta</h2>
+
+                <ul id="paleta-lista">
+                    <!-- Los <li> con cada color se insertan dinámicamente desde JS (Etapa 3).
+                    Estructura de referencia:
+                    <li class="color-item">
+                        <button class="swatch" style="background-color: hsl(...)" aria-label="Copiar código del color 1"></button>
+                        <p class="codigo-hex">#3AF29B</p>
+                        <p class="codigo-hsl">hsl(154, 82%, 58%)</p>
+                    </li>
+                    -->
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>Desarrollado por Rey Gabriel</p>
+
+            <nav aria-label="Redes sociales">
+                <a href="#" aria-label="Visitar mi GitHub">GH</a>
+                <a href="#" aria-label="Visitar mi LinkedIn">LI</a>
+            </nav>
+        </footer>
+
+        <script src="js/script.js" defer></script>
+    </body>
+</html>

@@ -1,0 +1,72 @@
+# LOG.md — Bitácora del proyecto ColorFly
+
+> Este archivo documenta las decisiones técnicas y el avance del proyecto por etapas.
+> El detalle del uso de IA como herramienta de asistencia (prompts, criterios, resultados) se encuentra documentado por separado en `documentacion/uso-ia.md`.
+
+---
+
+## Etapa 0 — Planificación y estructura del proyecto
+
+**Fecha:** 2026-08-13
+
+### Objetivo
+
+Definir la estructura base del proyecto y dejar el repositorio inicializado en GitHub.
+
+### Decisiones tomadas
+
+- Nombre del repositorio: `ProyectoM1_ReyGabriel`.
+- Estructura de carpetas definida:
+    - `index.html` en la raíz (requisito de GitHub Pages).
+    - `css/styles.css`
+    - `js/script.js`
+    - `assets/` (reservada para uso futuro, opcional).
+    - `README.md` y `LOG.md`.
+    - `documentacion/` con `uso-ia.md` y `capturas/`, para cumplir el entregable final (documentación + uso de IA), sin interferir con el deploy en GitHub Pages (que se sirve desde la raíz).
+- Flujo de trabajo Git: rama única `main`, commits pequeños y descriptivos con formato tipo _conventional commits_ (`feat`, `fix`, `chore`, `docs`).
+- Repositorio creado como público en GitHub, sin README ni .gitignore autogenerados (para evitar conflictos con los archivos locales).
+
+### Acciones realizadas
+
+- Creación local de carpetas y archivos vacíos.
+- Inicialización del repositorio Git local.
+- Commit inicial: `chore: inicializa estructura base del proyecto`.
+- Repositorio remoto creado en GitHub y push inicial completado.
+
+### Estado
+
+✅ Etapa completada y validada.
+
+### Próximo paso
+
+Etapa 1 — Definir la estructura HTML semántica de la aplicación.
+
+---
+
+## Etapa 1 — Estructura HTML semántica
+
+**Fecha:** 2026-08-13
+
+### Objetivo
+
+Definir la estructura semántica de la página a partir de un boceto propio (papel → Excalidraw), resolviendo ambigüedades de diseño y accesibilidad antes de escribir código.
+
+### Proceso
+
+- Boceto inicial realizado en papel y digitalizado en Excalidraw, usado como base de discusión.
+- Se identificaron y resolvieron los siguientes puntos:
+    - Separación entre logotipo/isotipo (header) y el h1 real de la página.
+    - El selector de tamaño de paleta (6/8/9) se resuelve como `fieldset` + `legend` + inputs `radio`, no como botones sueltos, por tratarse de una selección única y para garantizar accesibilidad por teclado.
+    - La funcionalidad "Paletas anteriores" se identificó como _extra point_ (no forma parte del alcance obligatorio) y se pospone para el final del proyecto, priorizando el mínimo funcional.
+    - Se unificaron los paneles "Información de colores" y "Dibujo de la paleta" en un solo componente por color (swatch + HEX + HSL en el mismo bloque), evitando que la asociación color↔código dependa solo del orden visual.
+    - Se definió mostrar HEX y HSL siempre visibles y con igual jerarquía visual (sin ocultar ninguno detrás de un selector), por requisito explícito de la consigna.
+    - El botón "Generar Paleta" se ubicó fuera de las secciones de configuración y resultado, en un contenedor propio, por ser una acción y no contenido temático.
+    - Se definió jerarquía de encabezados: `h1` único (ColorFly) y `h2` para cada sección temática (Configurar paleta, Tu paleta, Paletas anteriores).
+
+### Estado
+
+✅ Etapa completada y validada. Estructura semántica implementada en `index.html`.
+
+### Próximo paso
+
+Etapa 2 — Lógica de generación de color (JS puro): algoritmo de color aleatorio y conversión HSL↔HEX.
