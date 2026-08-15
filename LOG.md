@@ -127,3 +127,27 @@ Conectar la lógica de generación de color (Etapa 2) con el DOM, para renderiza
 ### Próximo paso
 
 Etapa 4 — Interacción y microfeedback (copiar código al portapapeles + confirmación visible al usuario).
+
+## Etapa 4 — Interacción y microfeedback
+
+**Fecha:** 2026-08-15
+
+### Objetivo
+
+Implementar la funcionalidad de copiar el código HEX al portapapeles al hacer clic en un swatch, con microfeedback visible (toast), cumpliendo el punto 4 del alcance mínimo obligatorio y el extra point de copiado al portapapeles.
+
+### Decisiones tomadas
+
+- Se utilizó delegación de eventos: un único listener de `click` en el contenedor `listaPaleta` (que siempre existe), en vez de agregar un listener por cada swatch (que se crean y destruyen dinámicamente). Se usó `event.target.closest(".swatch")` para identificar, desde el contenedor, cuál swatch específico originó el click.
+- Se decidió guardar el código HEX de cada swatch en un atributo `data-hex`, accesible vía `.dataset.hex`, en lugar de leerlo desde `style.backgroundColor`, evitando depender de cómo el navegador normaliza internamente los formatos de color (que puede devolver `rgb()` en vez de HEX) y separando la responsabilidad visual (estilo) de la responsabilidad de datos.
+- Se implementó el copiado con la API asíncrona `navigator.clipboard.writeText()`, usando `async/await` y `try/catch` para manejar tanto el caso de éxito como el de fallo.
+- Se agregó un elemento `<div id="toast">` fijo en el HTML (oculto por defecto con el atributo `hidden`), con `role="status"` y `aria-live="polite"` para garantizar que el microfeedback sea también accesible para usuarios de lectores de pantalla, no solo visual.
+- El toast se muestra y oculta automáticamente a los 2 segundos mediante `setTimeout`, mostrando un mensaje distinto según el resultado (éxito o error al copiar).
+
+### Estado
+
+✅ Etapa completada y validada. Se probó el copiado de distintos swatches, confirmando que el color correcto se copia al portapapeles. Pendiente de estilos visuales (Etapa 6) para la presentación final del toast.
+
+### Próximo paso
+
+Etapa 5 — Accesibilidad y foco visible (revisión general de contraste, navegación por teclado y estados de foco).

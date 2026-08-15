@@ -74,6 +74,7 @@ function generarColor() {
 // Referencias a elementos del DOM
 const listaPaleta = document.getElementById("paleta-lista");
 const botonGenerar = document.getElementById("generar-btn");
+const toast = document.getElementById("toast");
 
 function obtenerTamanioSeleccionado() {
     const radioMarcado = document.querySelector(
@@ -104,6 +105,7 @@ function renderizarPaleta(colores) {
             "aria-label",
             `Copiar código del color ${index + 1}`,
         );
+        swatch.dataset.hex = color.hex;
 
         const textoHex = document.createElement("p");
         textoHex.className = "codigo-hex";
@@ -128,3 +130,32 @@ function manejarClickGenerar() {
 }
 
 botonGenerar.addEventListener("click", manejarClickGenerar);
+
+function mostrarToast(mensaje) {
+    toast.textContent = mensaje;
+    toast.hidden = false;
+
+    setTimeout(() => {
+        toast.hidden = true;
+    }, 2000);
+}
+
+async function manejarClickPaleta(evento) {
+    const swatchClickeado = evento.target.closest(".swatch");
+
+    if (!swatchClickeado) {
+        return;
+    }
+
+    const hexColor = swatchClickeado.dataset.hex;
+
+    try {
+        await navigator.clipboard.writeText(hexColor);
+        mostrarToast(`${hexColor} copiado al portapapeles`);
+    } catch (error) {
+        mostrarToast("No se pudo copiar el color");
+        console.error("Error al copiar:", error);
+    }
+}
+
+listaPaleta.addEventListener("click", manejarClickPaleta);

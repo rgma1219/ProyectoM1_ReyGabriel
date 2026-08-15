@@ -81,3 +81,22 @@ Se solicitó a la IA el desarrollo del flujo completo de render dinámico (lectu
 ### Captura
 
 ![Paleta generada dinámicamente en el DOM](capturas/etapa-3.png)
+
+## Etapa 4 — Interacción y microfeedback
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA diseñar la funcionalidad de copiado de color al portapapeles con feedback visible, definiendo antes de programar: qué código copiar (HEX, al clickear el swatch), cómo detectar clicks sobre elementos generados dinámicamente, y cómo evitar depender de datos visuales del navegador para recuperar el color exacto.
+
+### Resultado obtenido
+
+- Se aprendió el concepto de delegación de eventos (event delegation) y `event.target.closest()`, entendiendo por qué es necesario para elementos creados dinámicamente y por qué es más robusto que agregar listeners individuales.
+- Se comprendió la diferencia entre usar datos visuales (`style.backgroundColor`) y atributos de datos (`data-*` / `.dataset`) para asociar información a un elemento del DOM, y se resolvió una confusión puntual sobre la sintaxis de `.dataset.hex` (diferenciando el nombre del atributo de la lectura de una propiedad de objeto).
+- Se repasó el uso de `async/await` con `try/catch` aplicado a la API `navigator.clipboard.writeText()`.
+- Se implementó el toast de feedback con atributos de accesibilidad (`role="status"`, `aria-live="polite"`), reforzando el criterio de que el microfeedback debe ser perceptible también por tecnologías de asistencia, no solo visualmente.
+
+### Captura
+
+![Toast de confirmación al copiar un color](capturas/etapa-4a.png)
+
+![Toast de confirmación al copiar un color](capturas/etapa-4b.png)
