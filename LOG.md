@@ -151,3 +151,41 @@ Implementar la funcionalidad de copiar el código HEX al portapapeles al hacer c
 ### Próximo paso
 
 Etapa 5 — Accesibilidad y foco visible (revisión general de contraste, navegación por teclado y estados de foco).
+
+## Etapa 5 — Accesibilidad y foco visible
+
+**Fecha:** 2026-08-15
+
+### Objetivo
+
+Revisar y reforzar las consideraciones de accesibilidad del proyecto (labels asociados, contraste suficiente, foco visible), completando el requisito correspondiente del alcance mínimo obligatorio.
+
+### Decisiones y hallazgos
+
+**Foco visible:**
+
+- Se confirmó, mediante prueba manual de navegación por teclado, que todos los elementos interactivos (radios, botón "Generar Paleta", swatches, links del footer) son alcanzables y operables sin mouse, en un orden lógico.
+- Se identificó que el foco por defecto del navegador no es confiable para los swatches, ya que su color de fondo es aleatorio y puede coincidir o mimetizarse con el color del contorno de foco. Se definió como especificación pendiente (Etapa 6) implementar un estilo de foco propio con doble contorno (claro + oscuro) para garantizar visibilidad sin importar el color de fondo.
+- Se detectó adicionalmente que los swatches, al no tener dimensiones definidas aún en CSS, se muestran demasiado pequeños, agravando el problema del foco. Ambos issues (tamaño y contraste de foco) quedan anotados para la Etapa 6.
+
+**Contraste general:**
+
+- Se revisó cada elemento de texto de la interfaz, confirmando que ningún texto se muestra sobre un fondo de color aleatorio (decisión de estructura ya tomada en la Etapa 1), reduciendo el riesgo de contraste a una correcta elección de paleta de colores propia en CSS.
+- Se definió usar el estándar WCAG AA (contraste mínimo 4.5:1 para texto normal, 3:1 para texto grande) como criterio a verificar en la Etapa 6, con herramientas como WebAIM Contrast Checker y el inspector de accesibilidad de Chrome DevTools.
+
+**Corrección real del logo/header:**
+
+- Al revisar el asset real del isotipo (que incluye el texto "ColorFly Studio" dibujado dentro de la imagen, no como texto HTML), se corrigió el `alt` de la imagen de vacío a descriptivo (`alt="ColorFly Studio"`), y se mantuvo el `<h1>ColorFly</h1>` en el HTML pero visualmente oculto mediante una clase `.sr-only` (pendiente de definir en CSS), preservando la jerarquía semántica de encabezados sin duplicar visualmente el texto del logo.
+
+**Repaso general del HTML:**
+
+- Se verificó la estructura completa: landmarks (`header`, `main`, `footer`, `nav`), jerarquía de encabezados sin saltos, asociación correcta de labels (`for`/`id`) en el grupo de radios, atributos `aria-label` en botón y swatches, `role="status"`/`aria-live="polite"` en el toast, y `lang="es"` en el documento. No se encontraron errores; se confirmó que la información del código HEX no debe duplicarse en el `aria-label` del swatch, ya que el `<p>` adyacente ya la expone de forma redundante para lectores de pantalla.
+- Se identificó como pendiente de completar (no de accesibilidad): reemplazar los `href="#"` de los links del footer por las URLs reales antes de la entrega final.
+
+### Estado
+
+✅ Etapa completada y validada. Ajustes de accesibilidad implementados en HTML (`alt`, `.sr-only` en `h1`). Especificaciones de foco, tamaño de swatches y paleta de colores accesible quedan documentadas como pendientes para la Etapa 6.
+
+### Próximo paso
+
+Etapa 6 — Estilos y CSS (layout, paleta de colores accesible, foco con doble contorno, dimensiones de swatches).

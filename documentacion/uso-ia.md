@@ -95,8 +95,26 @@ Se solicitó a la IA diseñar la funcionalidad de copiado de color al portapapel
 - Se repasó el uso de `async/await` con `try/catch` aplicado a la API `navigator.clipboard.writeText()`.
 - Se implementó el toast de feedback con atributos de accesibilidad (`role="status"`, `aria-live="polite"`), reforzando el criterio de que el microfeedback debe ser perceptible también por tecnologías de asistencia, no solo visualmente.
 
-### Captura
+### Capturas
 
 ![Toast de confirmación al copiar un color](capturas/etapa-4a.png)
 
 ![Toast de confirmación al copiar un color](capturas/etapa-4b.png)
+
+## Etapa 5 — Accesibilidad y foco visible
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA una explicación desde cero (sin conocimiento previo del tema) sobre foco visible y contraste, seguida de un repaso guiado del comportamiento real de la app mediante pruebas manuales de navegación por teclado, y un repaso completo del archivo HTML final en busca de errores de accesibilidad.
+
+### Resultado obtenido
+
+- Se comprendió el concepto de foco visible y por qué el comportamiento por defecto del navegador no es suficiente cuando el color de fondo de un elemento interactivo es aleatorio (caso específico de los swatches).
+- Mediante prueba manual de navegación por teclado, se confirmó que todos los elementos interactivos son accesibles y en orden lógico, y se detectó visualmente el problema de contraste de foco en los swatches (agravado por su tamaño, aún sin definir en CSS).
+- Se revisó el asset real del logo (aportado por el estudiante) y se corrigió una decisión previa de la Etapa 1: el `alt` de la imagen y el tratamiento del `<h1>`, aplicando la técnica `.sr-only` para mantener la jerarquía semántica sin duplicar contenido visual.
+- Se realizó un repaso completo del HTML final contra una checklist de accesibilidad (landmarks, jerarquía de encabezados, labels, aria-labels, toast, idioma), sin encontrarse errores adicionales.
+- Quedaron documentadas como especificaciones técnicas pendientes para la Etapa 6: estilo de foco con doble contorno, dimensiones de los swatches, y elección de paleta de colores verificada con herramientas de contraste (WCAG AA).
+
+### Captura
+
+![Revisión de accesibilidad y navegación por teclado](capturas/etapa-5.png)
