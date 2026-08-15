@@ -70,3 +70,34 @@ Definir la estructura semántica de la página a partir de un boceto propio (pap
 ### Próximo paso
 
 Etapa 2 — Lógica de generación de color (JS puro): algoritmo de color aleatorio y conversión HSL↔HEX.
+
+## Etapa 2 — Lógica de generación de color (JS puro)
+
+**Fecha:** 2026-08-15
+
+### Objetivo
+
+Implementar la lógica de generación aleatoria de color y su conversión entre formatos HSL y HEX, sin tocar el DOM todavía.
+
+### Decisiones tomadas
+
+- Se consultó con la docente sobre el requisito de aleatoriedad y se confirmó que debe ser 100% real.
+- Se definió generar el color en HSL como formato "fuente", y derivar el HEX a partir de esos valores (no generar HEX directamente), por ser matemáticamente más simple de construir y por mantener la generación aleatoria separada de la conversión de formato.
+- H se genera sin restricciones (0-360). S y L se acotan a rangos razonables (S: 40-100, L: 25-80) para evitar casos borde que devuelvan grises, negros o blancos puros, priorizando que la paleta tenga sentido visual — decisión de diseño, no de accesibilidad forzada (ya que el color de fondo del swatch no requiere contraste de texto, por la estructura HTML definida en la Etapa 1).
+- Se separó la lógica en tres funciones con responsabilidad única:
+    - `generarColorHSL()`: genera un objeto `{h, s, l}` aleatorio dentro de los rangos definidos.
+    - `hslToHex(h, s, l)`: convierte valores HSL a un string HEX, mediante el algoritmo estándar de conversión (cálculo de C, X, m según sector de 60° en la rueda de color).
+    - `generarColor()`: función orquestadora que combina las dos anteriores y devuelve un objeto plano `{h, s, l, hex}`, listo para usar en el render (Etapa 3).
+- Se optó por devolver objetos (no arrays) en todas las funciones, por legibilidad y para evitar errores por dependencia de orden posicional.
+
+### Proceso de aprendizaje
+
+- El algoritmo de conversión HSL→HEX se trabajó primero a mano (con valores numéricos concretos) antes de escribir código, para entender la lógica matemática (rueda de color, sectores de 60°, valores auxiliares C/X/m) en vez de copiar una fórmula sin comprenderla.
+
+### Estado
+
+✅ Etapa completada y validada. Las tres funciones fueron probadas manualmente en la consola del navegador con múltiples valores, confirmando resultados correctos.
+
+### Próximo paso
+
+Etapa 3 — Render dinámico de la paleta en el DOM, según el tamaño seleccionado por el usuario.

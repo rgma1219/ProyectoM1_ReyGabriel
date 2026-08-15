@@ -45,3 +45,23 @@ A partir de estas decisiones, la IA proporcionó el código HTML completo y come
 ### Captura
 
 ![Estructura HTML semántica implementada](capturas/etapa-1.png)
+
+## Etapa 2 — Lógica de generación de color (JS puro)
+
+### Prompt utilizado (resumen)
+
+Se planteó a la IA el desarrollo de la lógica de generación de color, partiendo de una base ya conocida (`Math.random()` + `Math.floor()`) y con la decisión propia de generar en formato HSL para luego convertir a HEX. Se discutió previamente si el requisito de aleatoriedad 100% (indicado por la docente) entraba en conflicto con buenas prácticas de accesibilidad, concluyendo que no, dado el diseño de HTML ya definido en la Etapa 1. Se pidió explícitamente que la IA no avanzara con código hasta validar la lógica y el algoritmo matemático paso a paso.
+
+### Resultado obtenido
+
+- Se definieron y acotaron los rangos de generación aleatoria (H libre, S y L acotados) como decisión de diseño visual, no de accesibilidad.
+- Se aprendió el algoritmo de conversión HSL→HEX de forma guiada: primero la teoría de color (diferencia conceptual entre el modelo HSL y RGB), luego el cálculo manual de los valores auxiliares (C, X, m) con ejemplos numéricos propios, y recién al final la implementación en código.
+- Se practicó el cálculo a mano con dos ejemplos propios (H=210/S=65/L=50 como demostración, y H=300/S=65/L=60 resuelto por el estudiante, con corrección de un error en el cálculo de X).
+- Se implementaron tres funciones JS con responsabilidad única: `generarColorHSL()`, `hslToHex()`, y `generarColor()` (orquestadora), validadas todas en consola del navegador.
+- Se reforzó el criterio de diseño de software: separación de responsabilidades, reutilización y testeo aislado de funciones puras, como práctica profesional.
+
+### Capturas
+
+![Funciones de generación de color validadas en consola](capturas/etapa-2a.png)
+
+![Funciones de generación de color validadas en consola](capturas/etapa-2b.png)
