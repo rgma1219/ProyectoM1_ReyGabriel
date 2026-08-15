@@ -100,3 +100,30 @@ Implementar la lógica de generación aleatoria de color y su conversión entre 
 ### Próximo paso
 
 Etapa 3 — Render dinámico de la paleta en el DOM, según el tamaño seleccionado por el usuario.
+
+## Etapa 3 — Render dinámico de la paleta
+
+**Fecha:** 2026-08-15
+
+### Objetivo
+
+Conectar la lógica de generación de color (Etapa 2) con el DOM, para renderizar dinámicamente la paleta según el tamaño seleccionado por el usuario, activada por el botón "Generar Paleta".
+
+### Decisiones tomadas
+
+- Se separó la lógica en funciones de responsabilidad única:
+    - `obtenerTamanioSeleccionado()`: lee el radio button marcado y devuelve el tamaño como número.
+    - `generarPaleta(cantidad)`: genera un array de colores llamando a `generarColor()` (Etapa 2) tantas veces como se indique.
+    - `renderizarPaleta(colores)`: construye el HTML de cada color usando `document.createElement()` y `appendChild()` (no `innerHTML` con strings), evitando malas prácticas y riesgos de seguridad tipo XSS.
+    - `manejarClickGenerar()`: orquesta las tres funciones anteriores en el orden correcto.
+- Antes de renderizar una nueva paleta, se vacía el contenedor (`innerHTML = ""`) para evitar que se acumulen paletas anteriores.
+- Se conectó el flujo completo al evento `click` del botón "Generar Paleta" mediante `addEventListener`.
+- Ajuste menor de un comentario en `index.html` (referencia a la estructura de los `<li>`), agrupado en el mismo commit por ser parte del mismo trabajo, sin ameritar un commit propio.
+
+### Estado
+
+✅ Etapa completada y validada. Probado manualmente con los tres tamaños de paleta (6, 8, 9), confirmando generación aleatoria correcta y render dinámico funcional.
+
+### Próximo paso
+
+Etapa 4 — Interacción y microfeedback (copiar código al portapapeles + confirmación visible al usuario).

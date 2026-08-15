@@ -65,3 +65,19 @@ Se planteó a la IA el desarrollo de la lógica de generación de color, partien
 ![Funciones de generación de color validadas en consola](capturas/etapa-2a.png)
 
 ![Funciones de generación de color validadas en consola](capturas/etapa-2b.png)
+
+## Etapa 3 — Render dinámico de la paleta
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA el desarrollo del flujo completo de render dinámico (lectura de tamaño seleccionado, generación de la paleta, y pintado en el DOM), optando esta vez por resolver todo el flujo junto en lugar de función por función, para luego revisar en conjunto cualquier duda puntual.
+
+### Resultado obtenido
+
+- Se implementó el flujo completo conectando las funciones de la Etapa 2 con el DOM.
+- Tras la primera implementación, se pidió una explicación detallada línea por línea de la función `renderizarPaleta()`, ya que incluía conceptos nuevos (`document.createElement`, `appendChild`, `.style`, `.setAttribute`, `.textContent`, `forEach`, template literals).
+- Se validó explícitamente con la IA que el enfoque utilizado (creación de nodos DOM en vez de construir HTML como texto con `innerHTML`) responde a un estándar profesional, evitando malas prácticas y riesgos de seguridad, y se identificó como simplificación consciente la ausencia de manejo de errores defensivo, quedando fuera del alcance de este proyecto.
+
+### Captura
+
+![Paleta generada dinámicamente en el DOM](capturas/etapa-3.png)

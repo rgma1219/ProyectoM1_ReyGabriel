@@ -70,3 +70,61 @@ function generarColor() {
         hex: hex,
     };
 }
+
+// Referencias a elementos del DOM
+const listaPaleta = document.getElementById("paleta-lista");
+const botonGenerar = document.getElementById("generar-btn");
+
+function obtenerTamanioSeleccionado() {
+    const radioMarcado = document.querySelector(
+        'input[name="paletteSize"]:checked',
+    );
+    return Number(radioMarcado.value);
+}
+
+function generarPaleta(cantidad) {
+    const colores = [];
+    for (let i = 0; i < cantidad; i++) {
+        colores.push(generarColor());
+    }
+    return colores;
+}
+
+function renderizarPaleta(colores) {
+    listaPaleta.innerHTML = "";
+
+    colores.forEach((color, index) => {
+        const li = document.createElement("li");
+        li.className = "color-item";
+
+        const swatch = document.createElement("button");
+        swatch.className = "swatch";
+        swatch.style.backgroundColor = color.hex;
+        swatch.setAttribute(
+            "aria-label",
+            `Copiar código del color ${index + 1}`,
+        );
+
+        const textoHex = document.createElement("p");
+        textoHex.className = "codigo-hex";
+        textoHex.textContent = color.hex;
+
+        const textoHsl = document.createElement("p");
+        textoHsl.className = "codigo-hsl";
+        textoHsl.textContent = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+
+        li.appendChild(swatch);
+        li.appendChild(textoHex);
+        li.appendChild(textoHsl);
+
+        listaPaleta.appendChild(li);
+    });
+}
+
+function manejarClickGenerar() {
+    const tamanio = obtenerTamanioSeleccionado();
+    const colores = generarPaleta(tamanio);
+    renderizarPaleta(colores);
+}
+
+botonGenerar.addEventListener("click", manejarClickGenerar);
