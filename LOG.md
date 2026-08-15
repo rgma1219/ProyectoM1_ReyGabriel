@@ -81,7 +81,6 @@ Implementar la lógica de generación aleatoria de color y su conversión entre 
 
 ### Decisiones tomadas
 
-- Se consultó con la docente sobre el requisito de aleatoriedad y se confirmó que debe ser 100% real.
 - Se definió generar el color en HSL como formato "fuente", y derivar el HEX a partir de esos valores (no generar HEX directamente), por ser matemáticamente más simple de construir y por mantener la generación aleatoria separada de la conversión de formato.
 - H se genera sin restricciones (0-360). S y L se acotan a rangos razonables (S: 40-100, L: 25-80) para evitar casos borde que devuelvan grises, negros o blancos puros, priorizando que la paleta tenga sentido visual — decisión de diseño, no de accesibilidad forzada (ya que el color de fondo del swatch no requiere contraste de texto, por la estructura HTML definida en la Etapa 1).
 - Se separó la lógica en tres funciones con responsabilidad única:
