@@ -189,3 +189,128 @@ Revisar y reforzar las consideraciones de accesibilidad del proyecto (labels aso
 ### Próximo paso
 
 Etapa 6 — Estilos y CSS (layout, paleta de colores accesible, foco con doble contorno, dimensiones de swatches).
+
+## Etapa 6 — Estilos y CSS
+
+**Fecha:** 2026-08-16
+
+### Objetivo
+
+Aplicar identidad visual completa al proyecto: paleta de colores accesible, layout general, y estilos de todos los componentes interactivos, manteniendo los criterios de accesibilidad definidos en la Etapa 5.
+
+### Decisiones tomadas
+
+**Sistema de variables:**
+
+- Se definieron variables CSS (`:root`) para colores, espaciado (escala en `rem`), tipografía y layout, evitando valores sueltos repetidos y facilitando ajustes futuros centralizados.
+- Se adoptó `rem` como unidad estándar de medida (en lugar de `px`), decisión tomada pensando en una futura implementación responsive (objetivo personal del estudiante, fuera del alcance obligatorio de la consigna, pero identificado desde ahora para no tener que reescribir estilos más adelante).
+
+**Paleta de colores:**
+
+- Color de marca: `#2d3546` (provisto por el logo ya diseñado). Fondo general `#f4f6f9`, superficie de tarjetas `#ffffff`, texto secundario `#5c6478`.
+- Verificado contraste WCAG AA: texto principal sobre fondo general con ratio muy superior al mínimo; texto secundario sobre fondo general con ratio 5.47:1 (verificado con WebAIM Contrast Checker), superando el mínimo de 4.5:1 exigido por AA. Se evaluó y descartó perseguir el nivel AAA (7:1) por no ser un requisito de la consigna y por ser inusual en productos de diseño moderno.
+
+**Layout general:**
+
+- Contenedor centrado con ancho máximo de 1000px.
+- Header en fila (isotipo + frase) mediante Flexbox.
+- Secciones del `<main>` estilizadas como tarjetas (fondo blanco, bordes redondeados) para diferenciarse del fondo general de la página.
+- Reset básico de márgenes/paddings y `box-sizing: border-box` aplicado globalmente.
+
+**Selector de tamaño (radios):**
+
+- Se ocultó visualmente el input nativo (misma técnica que `.sr-only`) sin quitarlo de la accesibilidad, usando su `<label>` asociado como círculo visual.
+- Estado seleccionado resuelto con el selector CSS `:checked + label`, sin necesidad de JavaScript.
+- Foco visible aplicado sobre el label mediante `:focus-visible` en el input oculto.
+
+**Botón "Generar Paleta":**
+
+- Definido como el único botón con color de marca sólido de toda la interfaz, reservando ese peso visual para la acción principal.
+
+**Swatches:**
+
+- Se optó por una disposición en fila con `flex-wrap` (en lugar de un arco curvo) como solución funcional y prolija para esta etapa. Se dejó documentada la disposición en arco como mejora visual pendiente, a incorporar junto con el extra point de mejoras de UI.
+- Tamaño fijo (4.5rem) y forma circular mediante `border-radius: 50%`.
+- Foco visible resuelto con doble contorno (`outline` blanco + `box-shadow` en color de marca), garantizando visibilidad sin importar el color de fondo aleatorio del swatch.
+
+**Toast:**
+
+- Posicionado de forma fija, centrado horizontalmente, con animación de entrada/salida (fade + deslizamiento vertical) mediante `opacity` y `transform`, controlada por una clase CSS (`.visible`) en lugar de depender directamente del atributo `hidden` (que no es animable).
+- Ajustada la función `mostrarToast()` en JS para sincronizar el atributo `hidden` con el fin real de la animación de salida, mediante un `setTimeout` anidado.
+
+**Footer:**
+
+- Reemplazo de los textos placeholder ("GH"/"LI") por íconos SVG embebidos de GitHub y LinkedIn, usando `fill="currentColor"` para heredar color desde CSS y `aria-hidden="true"` para evitar redundancia con el `aria-label` del link contenedor.
+- Agregados los enlaces reales a los perfiles del desarrollador, con `target="_blank"` + `rel="noopener noreferrer"` para apertura segura en nueva pestaña.
+
+### Estado
+
+✅ Etapa completada. Todos los componentes probados visualmente y por navegación de teclado (foco visible confirmado en radios, botón, swatches y links del footer).
+
+### Próximo paso
+
+Revisión final de la consigna, y evaluación de los extra points pendientes (bloqueo de colores, guardado en localStorage, animaciones adicionales, mejoras de UI incluyendo la disposición en arco de la paleta) según tiempo disponible.
+
+## Etapa 6 (revisión) — Ajustes de layout, contraste y limpieza de CSS
+
+**Fecha:** 2026-08-16
+
+### Objetivo
+
+Corregir la disposición del `<main>` para reflejar fielmente el boceto original (config + botón en columna izquierda, paleta en columna derecha), resolver que header y footer queden fijos ocupando toda la altura de pantalla sin scroll general, y reforzar el contraste sutil entre las distintas zonas de la interfaz.
+
+### Decisiones y correcciones
+
+**Layout de una sola pantalla (sin scroll general):**
+
+- Se rediseñó el `<body>` como Grid de filas (`auto 1fr auto`) con altura fija (`html, body { height: 100% }` + `overflow: hidden`), evitando el uso de `position: fixed` en favor de una técnica más robusta y coherente con el objetivo futuro de responsive.
+- Se identificó y corrigió un problema típico de Grid: las filas `1fr` no se encogen por debajo del contenido a menos que se indique `min-height: 0` explícitamente en cada nivel anidado (`main`, `.panel-config`, ambas secciones variables) — sin este ajuste, el contenido forzaba el crecimiento del `<body>` y generaba scroll de página no deseado.
+- Se agregó scroll interno acotado (`overflow-y: auto`) en las secciones de contenido variable ("Tu paleta" y "Paletas anteriores"), como salvaguarda ante paletas grandes, sin afectar la visibilidad fija de header y footer.
+
+**Estructura de dos columnas en el `<main>`:**
+
+- Se implementó `grid-template-areas` para distribuir el contenido en zonas nombradas: columna izquierda dividida en configuración (arriba) e historial de paletas (abajo), columna derecha ocupada íntegramente por la paleta generada.
+- Se agrupó en el HTML la sección de configuración junto al botón "Generar Paleta" dentro de un nuevo contenedor (`.panel-config`), necesario para que ambos se comporten como una unidad dentro del Grid del `<main>`.
+- Se reemplazó el sistema de swatches en fila (Flexbox con ancho fijo) por Grid con `auto-fill`, resolviendo un desborde horizontal que generaba scroll no deseado dentro de la columna de resultados.
+
+**Header y footer de ancho completo:**
+
+- Se corrigió que el fondo de color de header/footer estuviera limitado al mismo ancho que el `<main>` (problema originado por tener el `max-width` a nivel `<body>`). Se resolvió moviendo el `max-width` centrado únicamente al `<main>`, y usando `padding` calculado dinámicamente (`calc()`) en header/footer para que su contenido interno quede alineado a la misma columna visual, mientras su fondo de color ocupa el 100% del ancho de la ventana.
+
+**Contraste entre secciones:**
+
+- Se ajustó el color de fondo general (`--color-fondo`) de `#f4f6f9` a `#e8ecf2`, un tono perceptiblemente más oscuro pero igualmente sutil, tras confirmar visualmente que el valor original no generaba suficiente diferencia contra el blanco de las tarjetas.
+- Se sumó un borde sutil (`rgba` de baja opacidad) y una sombra suave a las tarjetas (`section`), reforzando la separación visual sin perder la estética moderna y liviana buscada.
+
+**Limpieza de código:**
+
+- Se detectó y eliminó un bloque de estilos `footer` duplicado y obsoleto (remanente de la sub-etapa 6.2, previo a la reestructuración del layout), que sobrescribía silenciosamente parte del padding definido en la versión correcta y vigente.
+- Se corrigió el fondo del isotipo del logo (ajuste realizado directamente sobre el archivo de imagen, fuera de CSS), resolviendo un recuadro blanco no deseado alrededor del logo.
+
+### Estado
+
+✅ Layout, paleta de colores y contraste validados visualmente sobre monitor de escritorio real. Pendiente como mejora visual futura (no bloqueante): ajustar la disposición final de los swatches (posible disposición en arco, según el boceto original).
+
+---
+
+## Etapa 6 (revisión) — Reorganización de script.js
+
+**Fecha:** 2026-08-16
+
+### Objetivo
+
+Reordenar `js/script.js` por bloques temáticos, sin modificar ninguna lógica ya validada, para mejorar la legibilidad y mantener coherencia con la organización por secciones ya aplicada en `styles.css`.
+
+### Decisiones tomadas
+
+- Se agrupó el archivo en 6 bloques comentados: lógica de color, referencias al DOM, lógica de paleta y render, toast, manejadores de eventos, y registro de event listeners.
+- Se centralizaron ambos `addEventListener` (botón "Generar Paleta" y delegación de clicks en la lista de swatches) en un único bloque final, separando la definición del comportamiento (funciones) de su activación (listeners) — patrón estándar para que el flujo de eventos de la aplicación se entienda de un vistazo.
+- No se modificó ninguna lógica funcional; el comportamiento de la aplicación se mantuvo idéntico y fue re-validado tras la reorganización.
+
+### Estado
+
+✅ Etapa 6 cerrada por completo. Código de `script.js` reorganizado y validado, sin cambios de comportamiento.
+
+### Próximo paso
+
+Revisión final de la consigna completa, y evaluación de los extra points pendientes según tiempo disponible.

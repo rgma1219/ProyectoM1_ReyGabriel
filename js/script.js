@@ -1,3 +1,6 @@
+/* ============================
+    1. LÓGICA DE COLOR (generación y conversión)
+   ============================ */
 function generarColorHSL() {
     const h = Math.floor(Math.random() * 360); // 0 a 359
     const s = Math.floor(Math.random() * 61) + 40; // 40 a 100
@@ -71,11 +74,16 @@ function generarColor() {
     };
 }
 
-// Referencias a elementos del DOM
+/* ============================
+    2. REFERENCIAS AL DOM
+   ============================ */
 const listaPaleta = document.getElementById("paleta-lista");
 const botonGenerar = document.getElementById("generar-btn");
 const toast = document.getElementById("toast");
 
+/* ============================
+    3. LÓGICA DE PALETA Y RENDER
+   ============================ */
 function obtenerTamanioSeleccionado() {
     const radioMarcado = document.querySelector(
         'input[name="paletteSize"]:checked',
@@ -123,21 +131,30 @@ function renderizarPaleta(colores) {
     });
 }
 
+/* ============================
+    4. TOAST (MICROFEEDBACK)
+   ============================ */
+function mostrarToast(mensaje) {
+    toast.textContent = mensaje;
+    toast.hidden = false;
+    toast.classList.add("visible");
+
+    setTimeout(() => {
+        toast.classList.remove("visible");
+
+        setTimeout(() => {
+            toast.hidden = true;
+        }, 250);
+    }, 2000);
+}
+
+/* ============================
+    5. MANEJADORES DE EVENTOS
+   ============================ */
 function manejarClickGenerar() {
     const tamanio = obtenerTamanioSeleccionado();
     const colores = generarPaleta(tamanio);
     renderizarPaleta(colores);
-}
-
-botonGenerar.addEventListener("click", manejarClickGenerar);
-
-function mostrarToast(mensaje) {
-    toast.textContent = mensaje;
-    toast.hidden = false;
-
-    setTimeout(() => {
-        toast.hidden = true;
-    }, 2000);
 }
 
 async function manejarClickPaleta(evento) {
@@ -158,4 +175,8 @@ async function manejarClickPaleta(evento) {
     }
 }
 
+/* ============================
+    6. REGISTRO DE EVENT LISTENERS
+   ============================ */
+botonGenerar.addEventListener("click", manejarClickGenerar);
 listaPaleta.addEventListener("click", manejarClickPaleta);

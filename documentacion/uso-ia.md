@@ -118,3 +118,58 @@ Se solicitó a la IA una explicación desde cero (sin conocimiento previo del te
 ### Captura
 
 ![Revisión de accesibilidad y navegación por teclado](capturas/etapa-5.png)
+
+## Etapa 6 — Estilos y CSS
+
+### Prompt utilizado (resumen)
+
+Se trabajó la etapa dividida en sub-etapas (paleta de colores, layout general, selector de tamaño y botón, swatches, toast, footer), cada una discutida y validada antes de generar el código. Se solicitó explícitamente a la IA el uso de variables CSS y la unidad `rem` para todos los tamaños, como buena práctica ya conocida por el estudiante de ejercicios previos del bootcamp.
+
+### Resultado obtenido
+
+- Se definió una paleta de colores basada en el color de marca del logo (#2d3546), verificada con la herramienta WebAIM Contrast Checker, confirmando cumplimiento del estándar WCAG AA y evaluando conscientemente no perseguir AAA.
+- Se aprendieron técnicas de CSS no vistas previamente: ocultar visualmente un input manteniendo su accesibilidad, el selector `:checked` combinado con el combinador de hermano adyacente (`+`) para estados reactivos sin JavaScript, la diferencia entre `:focus` y `:focus-visible`, y la técnica de doble contorno (`outline` + `box-shadow`) para foco visible robusto ante colores de fondo aleatorios.
+- Se resolvió un caso técnico específico: por qué el atributo `hidden` no permite animaciones (al aplicar `display: none`), resolviéndolo mediante una clase CSS controlada por JavaScript y ajustando la temporización con `setTimeout` anidado para sincronizar la animación de salida con la reactivación del atributo `hidden`.
+- Se evaluó conscientemente posponer la disposición en arco original del boceto (más compleja de calcular) en favor de una solución funcional con `flex-wrap`, documentando la primera como mejora visual futura.
+- Se implementaron íconos SVG de redes sociales embebidos en el HTML, evitando dependencias externas, con buenas prácticas de accesibilidad (`aria-hidden`) y de seguridad al abrir enlaces externos (`rel="noopener noreferrer"`, agregado por iniciativa propia del estudiante).
+
+### Capturas
+
+![Interfaz completa con estilos aplicados](capturas/etapa-6a.png)
+
+![Interfaz completa con estilos aplicados](capturas/etapa-6b.png)
+
+## Etapa 6 (revisión) — Ajustes de layout, contraste y limpieza de CSS
+
+### Prompt utilizado (resumen)
+
+Tras una primera versión de la Etapa 6, el estudiante contrastó el resultado visual contra el boceto original y detectó varias desviaciones (disposición del main, tamaño general, header/footer no fijos). Se solicitó a la IA revisar y corregir el layout completo, utilizando estrategias de depuración visual (colores de fondo temporales muy contrastantes) para identificar con precisión los límites reales de cada bloque antes de ajustar los colores definitivos.
+
+### Resultado obtenido
+
+- Se corrigió la disposición del `<main>` a dos columnas mediante `grid-template-areas`, resolviendo un layout previamente apilado que no correspondía al boceto acordado en la Etapa 1.
+- Se resolvió un layout de una sola pantalla sin scroll general (salvo scroll interno acotado en zonas de contenido variable), evitando `position: fixed` en favor de una técnica de Grid con altura fija, considerando de antemano la compatibilidad con una futura implementación responsive (objetivo personal del estudiante, documentado como tarea pendiente).
+- Se diagnosticó y corrigió un comportamiento no evidente de CSS Grid relacionado con `min-height: 0` en contenedores anidados con `1fr`.
+- Se resolvió que header y footer ocuparan el ancho completo de la ventana manteniendo su contenido alineado al mismo margen que el `<main>`, mediante `padding` calculado dinámicamente con `calc()`.
+- Se realizó una revisión completa del archivo CSS final a pedido del estudiante, detectándose y corrigiéndose un bloque de estilos duplicado y obsoleto que sobrescribía silenciosamente reglas vigentes — ejercicio de auditoría de código antes del cierre de la etapa.
+
+### Captura
+
+![Layout final de dos columnas con header y footer fijos](capturas/etapa-6-revision.png)
+
+---
+
+## Etapa 6 (revisión) — Reorganización de script.js
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA revisar la estructura completa de `script.js` antes de la entrega, buscando código suelto o mal organizado, y proponer una reestructuración sin alterar la lógica ya validada en etapas anteriores.
+
+### Resultado obtenido
+
+- Se identificó que, si bien el código no tenía errores, el orden de aparición de las funciones y de los dos `addEventListener` no seguía una agrupación clara (estaban intercalados con otras funciones).
+- Se reorganizó el archivo en bloques temáticos comentados, replicando el mismo criterio de organización ya aplicado en `styles.css`, y centralizando el registro de eventos al final del archivo como práctica de separación entre definición y activación de comportamiento.
+
+### Captura
+
+![Estructura final de script.js reorganizada](capturas/etapa-6c.png)

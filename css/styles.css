@@ -1,0 +1,357 @@
+/* ============================
+    1. VARIABLES GLOBALES
+   ============================ */
+:root {
+    /* Colores */
+    --color-marca: #2d3546;
+    --color-fondo: #e8ecf2;
+    --color-superficie: #ffffff;
+    --color-texto-secundario: #5c6478;
+    --color-texto-sobre-marca: #ffffff;
+
+    /* Espaciado */
+    --espacio-xs: 0.5rem;
+    --espacio-sm: 1rem;
+    --espacio-md: 1.5rem;
+    --espacio-lg: 2rem;
+    --espacio-xl: 3rem;
+
+    /* Tipografía */
+    --fuente-base:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --texto-sm: 0.875rem;
+    --texto-base: 1rem;
+    --texto-lg: 1.25rem;
+    --texto-xl: 2rem;
+
+    /* Layout */
+    --ancho-maximo: 1000px;
+    --radio-borde: 12px;
+}
+
+/* ============================
+    2. RESET BÁSICO
+   ============================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fuente-base);
+    font-size: var(--texto-base);
+    color: var(--color-marca);
+    background-color: var(--color-fondo);
+    line-height: 1.5;
+}
+
+/* Clase de accesibilidad: oculta visualmente, visible para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================
+    3. LAYOUT GENERAL (BODY EN GRID DE FILAS)
+   ============================ */
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
+}
+
+/* ============================
+    4. HEADER Y FOOTER
+   ============================ */
+header {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-md);
+    padding: var(--espacio-md) calc((100% - var(--ancho-maximo)) / 2);
+    background-color: var(--color-superficie);
+    border-bottom: 1px solid rgba(45, 53, 70, 0.08);
+}
+
+header p {
+    color: var(--color-texto-secundario);
+    font-size: var(--texto-base);
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--espacio-md) calc((100% - var(--ancho-maximo)) / 2);
+    background-color: var(--color-superficie);
+    border-top: 1px solid rgba(45, 53, 70, 0.08);
+    color: var(--color-texto-secundario);
+    font-size: var(--texto-sm);
+}
+
+/* ============================
+    5. MAIN CON ÁREAS NOMBRADAS
+   ============================ */
+main {
+    max-width: var(--ancho-maximo);
+    margin: 0 auto;
+    padding: var(--espacio-lg) var(--espacio-md);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "config  paleta"
+        "historial paleta";
+    gap: var(--espacio-lg);
+    min-height: 0;
+    overflow: hidden;
+}
+
+.panel-config {
+    grid-area: config;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-sm);
+    min-height: 0;
+    overflow: hidden;
+    background-color: transparent;
+    padding: 0;
+}
+
+section[aria-labelledby="historial-heading"] {
+    grid-area: historial;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+section[aria-labelledby="paleta-heading"] {
+    grid-area: paleta;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+section[aria-labelledby="paleta-heading"] h2 {
+    text-align: center;
+}
+
+section {
+    background-color: var(--color-superficie);
+    border: 1px solid rgba(45, 53, 70, 0.06);
+    border-radius: var(--radio-borde);
+    padding: var(--espacio-lg);
+    box-shadow: 0 2px 8px rgba(45, 53, 70, 0.06);
+}
+
+section h2 {
+    font-size: var(--texto-lg);
+    font-weight: 600;
+    margin-bottom: var(--espacio-md);
+}
+
+/* ============================
+    6. SELECTOR DE TAMAÑO (RADIOS)
+   ============================ */
+fieldset {
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-sm);
+    margin-bottom: var(--espacio-md);
+}
+
+legend {
+    font-size: var(--texto-sm);
+    color: var(--color-texto-secundario);
+    margin-bottom: var(--espacio-sm);
+}
+
+/* Oculta visualmente el input nativo, sin quitarlo de la accesibilidad */
+fieldset input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* El label hace de círculo visual */
+fieldset label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-texto-secundario);
+    color: var(--color-marca);
+    font-size: var(--texto-base);
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+/* Estado seleccionado: se rellena con el color de marca */
+fieldset input[type="radio"]:checked + label {
+    background-color: var(--color-marca);
+    color: var(--color-texto-sobre-marca);
+    border-color: var(--color-marca);
+}
+
+/* Foco visible: como el input está oculto, mostramos el foco en su label */
+fieldset input[type="radio"]:focus-visible + label {
+    outline: 2px solid var(--color-marca);
+    outline-offset: 2px;
+}
+
+/* ============================
+    7. BOTÓN "GENERAR PALETA"
+   ============================ */
+.acciones {
+    max-width: var(--ancho-maximo);
+    margin: 0 auto;
+    padding: 0 var(--espacio-md) var(--espacio-lg);
+}
+
+#generar-btn {
+    background-color: var(--color-marca);
+    color: var(--color-texto-sobre-marca);
+    border: none;
+    border-radius: var(--radio-borde);
+    padding: var(--espacio-sm) var(--espacio-lg);
+    font-size: var(--texto-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+#generar-btn:hover {
+    background-color: #1f2534;
+}
+
+#generar-btn:focus-visible {
+    outline: 2px solid var(--color-marca);
+    outline-offset: 3px;
+}
+
+/* ============================
+    8. LISTA DE COLORES (SWATCHES)
+   ============================ */
+#paleta-lista {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+    gap: var(--espacio-lg);
+    justify-items: center;
+    background-color: var(--color-fondo);
+    padding: var(--espacio-md);
+    border-radius: var(--radio-borde);
+}
+
+.color-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-xs);
+    width: 100%;
+    max-width: 8rem;
+}
+
+.swatch {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.swatch:hover {
+    transform: scale(1.05);
+}
+
+/* Doble contorno: blanco pegado + color de marca separado */
+.swatch:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--color-marca);
+}
+
+.codigo-hex {
+    font-size: var(--texto-sm);
+    font-weight: 600;
+    color: var(--color-marca);
+    font-family: monospace;
+}
+
+.codigo-hsl {
+    font-size: var(--texto-sm);
+    color: var(--color-texto-secundario);
+    font-family: monospace;
+}
+
+/* ============================
+    9. TOAST
+   ============================ */
+.toast {
+    position: fixed;
+    bottom: var(--espacio-lg);
+    left: 50%;
+    transform: translateX(-50%) translateY(0.5rem);
+    background-color: var(--color-marca);
+    color: var(--color-texto-sobre-marca);
+    padding: var(--espacio-sm) var(--espacio-lg);
+    border-radius: var(--radio-borde);
+    font-size: var(--texto-base);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ============================
+    10. ÍCONOS DE REDES SOCIALES
+   ============================ */
+footer nav {
+    display: flex;
+    gap: var(--espacio-sm);
+}
+
+footer nav a {
+    color: var(--color-texto-secundario);
+    display: flex;
+    align-items: center;
+    transition: color 0.15s ease;
+}
+
+footer nav a:hover {
+    color: var(--color-marca);
+}
+
+footer nav a:focus-visible {
+    outline: 2px solid var(--color-marca);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
