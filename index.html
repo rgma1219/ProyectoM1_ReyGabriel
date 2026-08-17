@@ -11,23 +11,24 @@
         <link rel="stylesheet" href="./css/styles.css" />
     </head>
     <body>
-        <header>
+        <header class="app-header">
             <img
                 src="./assets/logo-desktop.png"
                 alt="ColorFly Studio"
                 width="104"
                 height="52"
+                decoding="async"
             />
             <h1 class="sr-only">ColorFly</h1>
-            <p>Generá paletas de colores en un clic.</p>
+            <p>Generá paletas de colores en un "click".</p>
         </header>
 
-        <main>
-            <div class="panel-config">
+        <main class="app-main">
+            <div class="config-panel">
                 <section aria-labelledby="config-heading">
                     <h2 id="config-heading">Configurar paleta</h2>
 
-                    <fieldset>
+                    <fieldset class="size-selector">
                         <legend>
                             Elige la cantidad de colores que necesitas
                         </legend>
@@ -35,7 +36,7 @@
                         <input
                             type="radio"
                             id="size-6"
-                            name="paletteSize"
+                            name="palette-size"
                             value="6"
                             checked
                         />
@@ -44,7 +45,7 @@
                         <input
                             type="radio"
                             id="size-8"
-                            name="paletteSize"
+                            name="palette-size"
                             value="8"
                         />
                         <label for="size-8">8</label>
@@ -52,44 +53,44 @@
                         <input
                             type="radio"
                             id="size-9"
-                            name="paletteSize"
+                            name="palette-size"
                             value="9"
                         />
                         <label for="size-9">9</label>
                     </fieldset>
                 </section>
 
-                <div class="acciones">
-                    <button type="button" id="generar-btn">
+                <div class="actions">
+                    <button type="button" id="generate-btn">
                         Generar Paleta
                     </button>
                 </div>
             </div>
 
-            <section aria-labelledby="historial-heading">
-                <h2>Paletas anteriores</h2>
+            <section aria-labelledby="history-heading">
+                <h2 id="history-heading">Paletas anteriores</h2>
+                <div id="history-list"></div>
             </section>
 
-            <section aria-labelledby="paleta-heading">
-                <h2 id="paleta-heading">Tu paleta</h2>
+            <section aria-labelledby="palette-heading">
+                <h2 id="palette-heading">Tu paleta</h2>
 
-                <ul id="paleta-lista">
-                    <!-- Los <li> con cada color se insertan dinámicamente desde JS.
-                    Estructura de referencia:
-                    <li class="color-item">
-                        <button class="swatch" style="background-color: hsl(...)" aria-label="Copiar código del color 1"></button>
-                        <p class="codigo-hex">#3AF29B</p>
-                        <p class="codigo-hsl">hsl(154, 82%, 58%)</p>
-                    </li>
-                    -->
+                <p id="palette-instruction">
+                    Seleccioná el tamaño de tu paleta y hace clic en "Generar
+                    paleta".
+                </p>
+
+                <ul id="palette-list">
+                    <!-- Contenido dinámico inyectado por JS -->
                 </ul>
             </section>
         </main>
 
-        <footer>
-            <p>Desarrollado por Rey Gabriel</p>
+        <footer class="app-footer">
+            <p>Desarrollado por Rey Gabriel &copy</p>
 
-            <nav aria-label="Redes sociales">
+            <nav aria-label="Redes sociales" class="social-nav">
+                <p>Encuentrame en:</p>
                 <a
                     href="https://github.com/rgma1219"
                     aria-label="Visitar mi GitHub"

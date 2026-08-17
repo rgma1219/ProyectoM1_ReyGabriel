@@ -1,26 +1,25 @@
 /* ============================
-    1. LÓGICA DE COLOR (generación y conversión)
+    1. COLOR LOGIC (GENERATION & CONVERSION)
    ============================ */
-function generarColorHSL() {
-    const h = Math.floor(Math.random() * 360); // 0 a 359
-    const s = Math.floor(Math.random() * 61) + 40; // 40 a 100
-    const l = Math.floor(Math.random() * 56) + 25; // 25 a 80
+function generateHSLColor() {
+    const h = Math.floor(Math.random() * 360);
+    const s = Math.floor(Math.random() * 61) + 40; // 40% - 100%
+    const l = Math.floor(Math.random() * 56) + 25; // 25% - 80%
 
-    return { h: h, s: s, l: l };
+    return { h, s, l };
 }
 
 function hslToHex(h, s, l) {
-    // 1. Convertir S y L de porcentaje (0-100) a decimal (0-1)
-    s = s / 100;
-    l = l / 100;
+    const sNorm = s / 100;
+    const lNorm = l / 100;
 
-    // 2. Calcular los valores auxiliares C, X, m
-    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const c = (1 - Math.abs(2 * lNorm - 1)) * sNorm;
     const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    const m = l - c / 2;
+    const m = lNorm - c / 2;
 
-    // 3. Determinar R', G', B' según el sector de 60° donde cae H
-    let r1, g1, b1;
+    let r1 = 0,
+        g1 = 0,
+        b1 = 0;
 
     if (h >= 0 && h < 60) {
         r1 = c;
@@ -48,61 +47,59 @@ function hslToHex(h, s, l) {
         b1 = x;
     }
 
-    // 4. Sumar m y llevar a escala 0-255, redondeando
-    const r = Math.round((r1 + m) * 255);
-    const g = Math.round((g1 + m) * 255);
-    const b = Math.round((b1 + m) * 255);
+    const r = Math.round((r1 + m) * 255)
+        .toString(16)
+        .padStart(2, "0");
+    const g = Math.round((g1 + m) * 255)
+        .toString(16)
+        .padStart(2, "0");
+    const b = Math.round((b1 + m) * 255)
+        .toString(16)
+        .padStart(2, "0");
 
-    // 5. Convertir cada canal a hexadecimal de 2 dígitos
-    const rHex = r.toString(16).padStart(2, "0");
-    const gHex = g.toString(16).padStart(2, "0");
-    const bHex = b.toString(16).padStart(2, "0");
-
-    // 6. Armar el string final
-    return "#" + rHex + gHex + bHex;
+    return `#${r}${g}${b}`;
 }
 
-function generarColor() {
-    const colorHSL = generarColorHSL();
-    const hex = hslToHex(colorHSL.h, colorHSL.s, colorHSL.l);
+function generateColor() {
+    const hsl = generateHSLColor();
+    const hex = hslToHex(hsl.h, hsl.s, hsl.l);
 
-    return {
-        h: colorHSL.h,
-        s: colorHSL.s,
-        l: colorHSL.l,
-        hex: hex,
-    };
+    return { ...hsl, hex };
 }
 
 /* ============================
-    2. REFERENCIAS AL DOM
+    2. DOM REFERENCES
    ============================ */
-const listaPaleta = document.getElementById("paleta-lista");
-const botonGenerar = document.getElementById("generar-btn");
+const paletteList = document.getElementById("palette-list");
+const generateBtn = document.getElementById("generate-btn");
 const toast = document.getElementById("toast");
+const paletteInstruction = document.getElementById("palette-instruction");
+
+let toastTimer = null;
+let toastHideTimer = null;
 
 /* ============================
-    3. LÓGICA DE PALETA Y RENDER
+    3. PALETTE LOGIC & RENDER
    ============================ */
-function obtenerTamanioSeleccionado() {
-    const radioMarcado = document.querySelector(
-        'input[name="paletteSize"]:checked',
+function getSelectedSize() {
+    const selectedOption = document.querySelector(
+        'input[name="palette-size"]:checked',
     );
-    return Number(radioMarcado.value);
+    return selectedOption ? Number(selectedOption.value) : 6;
 }
 
-function generarPaleta(cantidad) {
-    const colores = [];
-    for (let i = 0; i < cantidad; i++) {
-        colores.push(generarColor());
+function generatePalette(size) {
+    return Array.from({ length: size }, () => generateColor());
+}
+
+function renderPalette(colors) {
+    if (paletteInstruction) {
+        paletteInstruction.hidden = true;
     }
-    return colores;
-}
 
-function renderizarPaleta(colores) {
-    listaPaleta.innerHTML = "";
+    paletteList.innerHTML = "";
 
-    colores.forEach((color, index) => {
+    colors.forEach((color, index) => {
         const li = document.createElement("li");
         li.className = "color-item";
 
@@ -115,68 +112,70 @@ function renderizarPaleta(colores) {
         );
         swatch.dataset.hex = color.hex;
 
-        const textoHex = document.createElement("p");
-        textoHex.className = "codigo-hex";
-        textoHex.textContent = color.hex;
+        const hexText = document.createElement("p");
+        hexText.className = "code-hex";
+        hexText.textContent = color.hex;
 
-        const textoHsl = document.createElement("p");
-        textoHsl.className = "codigo-hsl";
-        textoHsl.textContent = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+        const hslText = document.createElement("p");
+        hslText.className = "code-hsl";
+        hslText.textContent = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
 
         li.appendChild(swatch);
-        li.appendChild(textoHex);
-        li.appendChild(textoHsl);
+        li.appendChild(hexText);
+        li.appendChild(hslText);
 
-        listaPaleta.appendChild(li);
+        paletteList.appendChild(li);
     });
 }
 
 /* ============================
-    4. TOAST (MICROFEEDBACK)
+    4. TOAST (FEEDBACK)
    ============================ */
-function mostrarToast(mensaje) {
-    toast.textContent = mensaje;
+function showToast(message) {
+    clearTimeout(toastTimer);
+    clearTimeout(toastHideTimer);
+
+    toast.textContent = message;
     toast.hidden = false;
     toast.classList.add("visible");
 
-    setTimeout(() => {
+    toastTimer = setTimeout(() => {
         toast.classList.remove("visible");
-
-        setTimeout(() => {
+        toastHideTimer = setTimeout(() => {
             toast.hidden = true;
         }, 250);
     }, 2000);
 }
 
 /* ============================
-    5. MANEJADORES DE EVENTOS
+    5. EVENT HANDLERS
    ============================ */
-function manejarClickGenerar() {
-    const tamanio = obtenerTamanioSeleccionado();
-    const colores = generarPaleta(tamanio);
-    renderizarPaleta(colores);
+function handleGenerateClick() {
+    const size = getSelectedSize();
+    const colors = generatePalette(size);
+    renderPalette(colors);
 }
 
-async function manejarClickPaleta(evento) {
-    const swatchClickeado = evento.target.closest(".swatch");
+async function handlePaletteClick(event) {
+    const swatch = event.target.closest(".swatch");
+    if (!swatch) return;
 
-    if (!swatchClickeado) {
-        return;
-    }
-
-    const hexColor = swatchClickeado.dataset.hex;
+    const hexColor = swatch.dataset.hex;
 
     try {
         await navigator.clipboard.writeText(hexColor);
-        mostrarToast(`${hexColor} copiado al portapapeles`);
+        showToast(`${hexColor} copiado al portapapeles`);
     } catch (error) {
-        mostrarToast("No se pudo copiar el color");
+        showToast("No se pudo copiar el color");
         console.error("Error al copiar:", error);
     }
 }
 
 /* ============================
-    6. REGISTRO DE EVENT LISTENERS
+    6. EVENT LISTENERS & INITIALIZATION
    ============================ */
-botonGenerar.addEventListener("click", manejarClickGenerar);
-listaPaleta.addEventListener("click", manejarClickPaleta);
+generateBtn.addEventListener("click", handleGenerateClick);
+paletteList.addEventListener("click", handlePaletteClick);
+
+// Genera una paleta inicial al cargar la página
+// handleGenerateClick();

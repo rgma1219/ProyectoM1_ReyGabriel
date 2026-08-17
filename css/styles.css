@@ -3,30 +3,30 @@
    ============================ */
 :root {
     /* Colores */
-    --color-marca: #2d3546;
-    --color-fondo: #e8ecf2;
-    --color-superficie: #ffffff;
-    --color-texto-secundario: #5c6478;
-    --color-texto-sobre-marca: #ffffff;
+    --color-brand: #2d3546;
+    --color-bg: #e8ecf2;
+    --color-surface: #ffffff;
+    --color-text-secondary: #5c6478;
+    --color-text-on-brand: #ffffff;
 
     /* Espaciado */
-    --espacio-xs: 0.5rem;
-    --espacio-sm: 1rem;
-    --espacio-md: 1.5rem;
-    --espacio-lg: 2rem;
-    --espacio-xl: 3rem;
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
 
     /* Tipografía */
-    --fuente-base:
+    --font-base:
         -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --texto-sm: 0.875rem;
-    --texto-base: 1rem;
-    --texto-lg: 1.25rem;
-    --texto-xl: 2rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 2rem;
 
     /* Layout */
-    --ancho-maximo: 1000px;
-    --radio-borde: 12px;
+    --max-width: 1000px;
+    --border-radius: 12px;
 }
 
 /* ============================
@@ -38,15 +38,23 @@
     box-sizing: border-box;
 }
 
+html,
 body {
-    font-family: var(--fuente-base);
-    font-size: var(--texto-base);
-    color: var(--color-marca);
-    background-color: var(--color-fondo);
-    line-height: 1.5;
+    height: 100%;
 }
 
-/* Clase de accesibilidad: oculta visualmente, visible para lectores de pantalla */
+body {
+    font-family: var(--font-base);
+    font-size: var(--text-base);
+    color: var(--color-brand);
+    background-color: var(--color-bg);
+    line-height: 1.5;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow-x: hidden;
+}
+
+/* Clase de accesibilidad */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -60,125 +68,119 @@ body {
 }
 
 /* ============================
-    3. LAYOUT GENERAL (BODY EN GRID DE FILAS)
+    3. HEADER Y FOOTER
    ============================ */
-html,
-body {
-    height: 100%;
-}
-
-body {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    overflow: hidden;
-}
-
-/* ============================
-    4. HEADER Y FOOTER
-   ============================ */
-header {
-    display: flex;
-    align-items: center;
-    gap: var(--espacio-md);
-    padding: var(--espacio-md) calc((100% - var(--ancho-maximo)) / 2);
-    background-color: var(--color-superficie);
-    border-bottom: 1px solid rgba(45, 53, 70, 0.08);
-}
-
-header p {
-    color: var(--color-texto-secundario);
-    font-size: var(--texto-base);
-}
-
-footer {
+.app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--espacio-md) calc((100% - var(--ancho-maximo)) / 2);
-    background-color: var(--color-superficie);
+    gap: var(--space-md);
+    padding: var(--space-md)
+        max(var(--space-md), calc((100% - var(--max-width)) / 2));
+    background-color: var(--color-surface);
+    border-bottom: 1px solid rgba(45, 53, 70, 0.08);
+}
+
+.app-header p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-base);
+}
+
+.app-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md)
+        max(var(--space-md), calc((100% - var(--max-width)) / 2));
+    background-color: var(--color-surface);
     border-top: 1px solid rgba(45, 53, 70, 0.08);
-    color: var(--color-texto-secundario);
-    font-size: var(--texto-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
 }
 
 /* ============================
-    5. MAIN CON ÁREAS NOMBRADAS
+    4. MAIN LAYOUT (DESKTOP)
    ============================ */
-main {
-    max-width: var(--ancho-maximo);
+.app-main {
+    max-width: var(--max-width);
+    width: 100%;
     margin: 0 auto;
-    padding: var(--espacio-lg) var(--espacio-md);
+    padding: var(--space-lg) var(--space-md);
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
-        "config  paleta"
-        "historial paleta";
-    gap: var(--espacio-lg);
+        "config palette"
+        "history palette";
+    gap: var(--space-lg);
     min-height: 0;
-    overflow: hidden;
-}
-
-.panel-config {
-    grid-area: config;
-    display: flex;
-    flex-direction: column;
-    gap: var(--espacio-sm);
-    min-height: 0;
-    overflow: hidden;
-    background-color: transparent;
-    padding: 0;
-}
-
-section[aria-labelledby="historial-heading"] {
-    grid-area: historial;
-    min-height: 0;
-    overflow-y: auto;
-}
-
-section[aria-labelledby="paleta-heading"] {
-    grid-area: paleta;
-    min-height: 0;
-    overflow-y: auto;
-}
-
-section[aria-labelledby="paleta-heading"] h2 {
-    text-align: center;
 }
 
 section {
-    background-color: var(--color-superficie);
+    background-color: var(--color-surface);
     border: 1px solid rgba(45, 53, 70, 0.06);
-    border-radius: var(--radio-borde);
-    padding: var(--espacio-lg);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
     box-shadow: 0 2px 8px rgba(45, 53, 70, 0.06);
 }
 
-section h2 {
-    font-size: var(--texto-lg);
+.app-main h2 {
+    font-size: var(--text-lg);
     font-weight: 600;
-    margin-bottom: var(--espacio-md);
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    line-height: 1.2;
+}
+
+/* Panel de Configuración (Tarjeta externa única) */
+.config-panel {
+    grid-area: config;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    background-color: var(--color-surface);
+    border: 1px solid rgba(45, 53, 70, 0.06);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
+    box-shadow: 0 2px 8px rgba(45, 53, 70, 0.06);
+}
+
+/* OPCIÓN A: Remueve padding y estilos de tarjeta en el section interno */
+.config-panel section {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+section[aria-labelledby="history-heading"] {
+    grid-area: history;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+section[aria-labelledby="palette-heading"] {
+    grid-area: palette;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 /* ============================
-    6. SELECTOR DE TAMAÑO (RADIOS)
+    5. CONTROLES Y FORMULARIO
    ============================ */
-fieldset {
+.size-selector {
     border: none;
     display: flex;
-    align-items: center;
-    gap: var(--espacio-sm);
-    margin-bottom: var(--espacio-md);
+    gap: var(--space-xs);
 }
 
-legend {
-    font-size: var(--texto-sm);
-    color: var(--color-texto-secundario);
-    margin-bottom: var(--espacio-sm);
+.size-selector legend {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xs);
 }
 
-/* Oculta visualmente el input nativo, sin quitarlo de la accesibilidad */
-fieldset input[type="radio"] {
+.size-selector input[type="radio"] {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -190,92 +192,92 @@ fieldset input[type="radio"] {
     border: 0;
 }
 
-/* El label hace de círculo visual */
-fieldset label {
+.size-selector label {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    border: 1px solid var(--color-texto-secundario);
-    color: var(--color-marca);
-    font-size: var(--texto-base);
+    border: 1px solid var(--color-text-secondary);
+    color: var(--color-brand);
+    font-size: var(--text-base);
     cursor: pointer;
     transition:
         background-color 0.15s ease,
-        color 0.15s ease;
+        color 0.15s ease,
+        border-color 0.15s ease;
 }
 
-/* Estado seleccionado: se rellena con el color de marca */
-fieldset input[type="radio"]:checked + label {
-    background-color: var(--color-marca);
-    color: var(--color-texto-sobre-marca);
-    border-color: var(--color-marca);
+.size-selector input[type="radio"]:checked + label {
+    background-color: var(--color-brand);
+    color: var(--color-text-on-brand);
+    border-color: var(--color-brand);
 }
 
-/* Foco visible: como el input está oculto, mostramos el foco en su label */
-fieldset input[type="radio"]:focus-visible + label {
-    outline: 2px solid var(--color-marca);
+.size-selector input[type="radio"]:focus-visible + label {
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
 }
 
-/* ============================
-    7. BOTÓN "GENERAR PALETA"
-   ============================ */
-.acciones {
-    max-width: var(--ancho-maximo);
-    margin: 0 auto;
-    padding: 0 var(--espacio-md) var(--espacio-lg);
+/* Botón principal */
+.actions {
+    width: 100%;
 }
 
-#generar-btn {
-    background-color: var(--color-marca);
-    color: var(--color-texto-sobre-marca);
+#generate-btn {
+    width: 100%;
+    background-color: var(--color-brand);
+    color: var(--color-text-on-brand);
     border: none;
-    border-radius: var(--radio-borde);
-    padding: var(--espacio-sm) var(--espacio-lg);
-    font-size: var(--texto-base);
+    border-radius: var(--border-radius);
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-base);
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.15s ease;
 }
 
-#generar-btn:hover {
+#generate-btn:hover {
     background-color: #1f2534;
 }
 
-#generar-btn:focus-visible {
-    outline: 2px solid var(--color-marca);
+#generate-btn:focus-visible {
+    outline: 2px solid var(--color-brand);
     outline-offset: 3px;
 }
 
 /* ============================
-    8. LISTA DE COLORES (SWATCHES)
+    6. MUESTRAS DE COLOR (PALETTE)
    ============================ */
-#paleta-lista {
+#palette-instruction {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-md);
+}
+
+#palette-list {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
-    gap: var(--espacio-lg);
+    grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+    gap: var(--space-md);
     justify-items: center;
-    background-color: var(--color-fondo);
-    padding: var(--espacio-md);
-    border-radius: var(--radio-borde);
+    background-color: var(--color-bg);
+    padding: var(--space-md);
+    border-radius: var(--border-radius);
 }
 
 .color-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--espacio-xs);
+    gap: var(--space-xs);
     width: 100%;
-    max-width: 8rem;
 }
 
 .swatch {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
     border: none;
     cursor: pointer;
@@ -283,42 +285,41 @@ fieldset input[type="radio"]:focus-visible + label {
 }
 
 .swatch:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
-/* Doble contorno: blanco pegado + color de marca separado */
 .swatch:focus-visible {
     outline: 2px solid #ffffff;
     outline-offset: 2px;
-    box-shadow: 0 0 0 4px var(--color-marca);
+    box-shadow: 0 0 0 4px var(--color-brand);
 }
 
-.codigo-hex {
-    font-size: var(--texto-sm);
+.code-hex {
+    font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--color-marca);
+    color: var(--color-brand);
     font-family: monospace;
 }
 
-.codigo-hsl {
-    font-size: var(--texto-sm);
-    color: var(--color-texto-secundario);
+.code-hsl {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
     font-family: monospace;
 }
 
 /* ============================
-    9. TOAST
+    7. TOAST & SOCIAL NAV
    ============================ */
 .toast {
     position: fixed;
-    bottom: var(--espacio-lg);
+    bottom: var(--space-lg);
     left: 50%;
     transform: translateX(-50%) translateY(0.5rem);
-    background-color: var(--color-marca);
-    color: var(--color-texto-sobre-marca);
-    padding: var(--espacio-sm) var(--espacio-lg);
-    border-radius: var(--radio-borde);
-    font-size: var(--texto-base);
+    background-color: var(--color-brand);
+    color: var(--color-text-on-brand);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--border-radius);
+    font-size: var(--text-base);
     opacity: 0;
     pointer-events: none;
     transition:
@@ -331,27 +332,44 @@ fieldset input[type="radio"]:focus-visible + label {
     transform: translateX(-50%) translateY(0);
 }
 
-/* ============================
-    10. ÍCONOS DE REDES SOCIALES
-   ============================ */
-footer nav {
+.social-nav {
     display: flex;
-    gap: var(--espacio-sm);
+    align-items: center;
+    gap: var(--space-sm);
 }
 
-footer nav a {
-    color: var(--color-texto-secundario);
+.social-nav a {
+    color: var(--color-text-secondary);
     display: flex;
     align-items: center;
     transition: color 0.15s ease;
 }
 
-footer nav a:hover {
-    color: var(--color-marca);
+.social-nav a:hover {
+    color: var(--color-brand);
 }
 
-footer nav a:focus-visible {
-    outline: 2px solid var(--color-marca);
+.social-nav a:focus-visible {
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
     border-radius: 4px;
+}
+
+/* ============================
+    8. RESPONSIVE DESIGN
+   ============================ */
+@media (max-width: 768px) {
+    body {
+        grid-template-rows: auto auto auto;
+        overflow-y: auto;
+    }
+
+    .app-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "config"
+            "palette"
+            "history";
+    }
 }
