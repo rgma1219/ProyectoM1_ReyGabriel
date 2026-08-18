@@ -159,7 +159,7 @@ Tras una primera versión de la Etapa 6, el estudiante contrastó el resultado v
 
 ---
 
-## Etapa 6 (revisión) — Reorganización de script.js
+## Etapa 6 (revisión 1) — Reorganización de script.js
 
 ### Prompt utilizado (resumen)
 
@@ -173,3 +173,22 @@ Se solicitó a la IA revisar la estructura completa de `script.js` antes de la e
 ### Captura
 
 ![Estructura final de script.js reorganizada](capturas/etapa-6c.png)
+
+## Etapa 6 (revisión 2) - Reorganización de archivos, nomenclaturas, etc., adaptación de funcionalidad
+
+### Prompt utlizado (resumen)
+
+Se solicitó a la IA Gemini que haga una revisión archivo por archivo para que verifique la estructura y realice una devolución para mejorarlo. Por otro lado se solicitó luego de la primera devolución que haya una coherencia en la nomenclatura de los elementos html, selectores en la hoja de estilos y variables-funciones del script.js
+
+### Resultado obtenido
+
+- Identificó pequeñas mejoras para aplicar al HTML.
+- Luego devolvió las porciones de código enviadas para su refactorización con el estandar solicitado y su correspondiente adaptación en la hoja de estilos y el script.
+
+### Capturas
+
+![Estructura final de script.js reorganizada](capturas/etapa-6d.png)
+
+![Estructura final de script.js reorganizada](capturas/etapa-6e.png)
+
+![Estructura final de script.js reorganizada](capturas/etapa-6f.png)

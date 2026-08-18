@@ -168,19 +168,19 @@ section[aria-labelledby="palette-heading"] {
 /* ============================
     5. CONTROLES Y FORMULARIO
    ============================ */
-.size-selector {
+.config-selector {
     border: none;
     display: flex;
     gap: var(--space-xs);
 }
 
-.size-selector legend {
+.config-selector legend {
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
     margin-bottom: var(--space-xs);
 }
 
-.size-selector input[type="radio"] {
+.config-selector input[type="radio"] {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -192,7 +192,7 @@ section[aria-labelledby="palette-heading"] {
     border: 0;
 }
 
-.size-selector label {
+.config-selector label {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -209,13 +209,13 @@ section[aria-labelledby="palette-heading"] {
         border-color 0.15s ease;
 }
 
-.size-selector input[type="radio"]:checked + label {
+.config-selector input[type="radio"]:checked + label {
     background-color: var(--color-brand);
     color: var(--color-text-on-brand);
     border-color: var(--color-brand);
 }
 
-.size-selector input[type="radio"]:focus-visible + label {
+.config-selector input[type="radio"]:focus-visible + label {
     outline: 2px solid var(--color-brand);
     outline-offset: 2px;
 }
@@ -294,14 +294,7 @@ section[aria-labelledby="palette-heading"] {
     box-shadow: 0 0 0 4px var(--color-brand);
 }
 
-.code-hex {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-brand);
-    font-family: monospace;
-}
-
-.code-hsl {
+.code-text {
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
     font-family: monospace;

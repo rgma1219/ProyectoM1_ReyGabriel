@@ -311,6 +311,22 @@ Reordenar `js/script.js` por bloques temáticos, sin modificar ninguna lógica y
 
 ✅ Etapa 6 cerrada por completo. Código de `script.js` reorganizado y validado, sin cambios de comportamiento.
 
+---
+
+## Etapa 6 (nueva revisión) — Reorganización de nomenclaturas generales y nueva funcionalidad
+
+**Fecha:** 2026-08-18
+
+### Objetivo
+
+Reordenar y renombrar toda la nomenclatura de `id, clases, funciones, variables, etc.` adoptando la convención en kebab-case en inglés. Agregar la posibilidad de elegir el formato de los colores por el usuario y copiar el color en el formato seleccionado.
+
+### Decisiones tomadas
+
+- Luego de la revisión que se hizo con anterioridad, me di cuenta que la nomenclatura de todos los elementos del proyecto no seguían un orden específico y es por esto que consultando con IA me recomendó una refactorización de todo utilizando kebab-case en inglés. En el caso de las funciones se mantiene camel-case por convención general.
+- Luego de la clase de consulta con respecto al PI, hemos definido un punto de la consigna que estaba ambigüo. Esto desencadenó en crear un elemento nuevo en el HTML para que el usuario pueda elegir el formato del color y no solo mostrar ambos. También se modificó las funciones ya terminadas para adaptarlas a esta nueva situación.
+
 ### Próximo paso
 
-Revisión final de la consigna completa, y evaluación de los extra points pendientes según tiempo disponible.
+- Crear el archivo README.md y hacer la revisión final.
+- Ver la posibilidad de crear las funcionalidades que otorgan "Extra Points".

@@ -28,9 +28,9 @@
                 <section aria-labelledby="config-heading">
                     <h2 id="config-heading">Configurar paleta</h2>
 
-                    <fieldset class="size-selector">
+                    <fieldset class="config-selector">
                         <legend>
-                            Elige la cantidad de colores que necesitas
+                            1. Elige la cantidad de colores que necesitas
                         </legend>
 
                         <input
@@ -58,6 +58,29 @@
                         />
                         <label for="size-9">9</label>
                     </fieldset>
+
+                    <fieldset class="config-selector">
+                        <legend>2. Elige el formato del color HSL o HEX</legend>
+
+                        <input
+                            type="radio"
+                            id="format-hsl"
+                            name="color-format"
+                            value="hsl"
+                            checked
+                        />
+
+                        <label for="format-hsl">HSL</label>
+
+                        <input
+                            type="radio"
+                            id="format-hex"
+                            name="color-format"
+                            value="hex"
+                        />
+
+                        <label for="format-hex">HEX</label>
+                    </fieldset>
                 </section>
 
                 <div class="actions">
@@ -76,8 +99,8 @@
                 <h2 id="palette-heading">Tu paleta</h2>
 
                 <p id="palette-instruction">
-                    Seleccioná el tamaño de tu paleta y hace clic en "Generar
-                    paleta".
+                    Seleccioná el tamaño de tu paleta, el formato y hace clic en
+                    "Generar paleta".
                 </p>
 
                 <ul id="palette-list">
@@ -87,7 +110,7 @@
         </main>
 
         <footer class="app-footer">
-            <p>Desarrollado por Rey Gabriel &copy</p>
+            <p>Desarrollado por Rey Gabriel &copy 2026</p>
 
             <nav aria-label="Redes sociales" class="social-nav">
                 <p>Encuentrame en:</p>

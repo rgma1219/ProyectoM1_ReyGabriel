@@ -88,11 +88,18 @@ function getSelectedSize() {
     return selectedOption ? Number(selectedOption.value) : 6;
 }
 
+function getSelectedFormat() {
+    const selectedOptionFormat = document.querySelector(
+        'input[name="color-format"]:checked',
+    );
+    return selectedOptionFormat ? selectedOptionFormat.value : "hsl";
+}
+
 function generatePalette(size) {
     return Array.from({ length: size }, () => generateColor());
 }
 
-function renderPalette(colors) {
+function renderPalette(colors, format) {
     if (paletteInstruction) {
         paletteInstruction.hidden = true;
     }
@@ -110,19 +117,27 @@ function renderPalette(colors) {
             "aria-label",
             `Copiar código del color ${index + 1}`,
         );
-        swatch.dataset.hex = color.hex;
+
+        if (format === "hsl") {
+            swatch.dataset.colorData = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+        } else {
+            swatch.dataset.colorData = color.hex;
+        }
 
         const hexText = document.createElement("p");
-        hexText.className = "code-hex";
+        hexText.className = "code-text";
         hexText.textContent = color.hex;
 
         const hslText = document.createElement("p");
-        hslText.className = "code-hsl";
+        hslText.className = "code-text";
         hslText.textContent = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
 
         li.appendChild(swatch);
-        li.appendChild(hexText);
-        li.appendChild(hslText);
+        if (format === "hsl") {
+            li.appendChild(hslText);
+        } else {
+            li.appendChild(hexText);
+        }
 
         paletteList.appendChild(li);
     });
@@ -152,19 +167,20 @@ function showToast(message) {
    ============================ */
 function handleGenerateClick() {
     const size = getSelectedSize();
+    const format = getSelectedFormat();
     const colors = generatePalette(size);
-    renderPalette(colors);
+    renderPalette(colors, format);
 }
 
 async function handlePaletteClick(event) {
     const swatch = event.target.closest(".swatch");
     if (!swatch) return;
 
-    const hexColor = swatch.dataset.hex;
+    const dataColor = swatch.dataset.colorData;
 
     try {
-        await navigator.clipboard.writeText(hexColor);
-        showToast(`${hexColor} copiado al portapapeles`);
+        await navigator.clipboard.writeText(dataColor);
+        showToast(`${dataColor} copiado al portapapeles`);
     } catch (error) {
         showToast("No se pudo copiar el color");
         console.error("Error al copiar:", error);
