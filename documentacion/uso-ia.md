@@ -192,3 +192,17 @@ Se solicitó a la IA Gemini que haga una revisión archivo por archivo para que 
 ![Estructura final de script.js reorganizada](capturas/etapa-6e.png)
 
 ![Estructura final de script.js reorganizada](capturas/etapa-6f.png)
+
+## Etapa 8 — Redacción de README.md
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA armar el contenido completo del README.md, indicando como requisito explícito que incluyera un índice con links a cada sección, y que enlazara a `LOG.md` y `documentacion/uso-ia.md` en vez de repetir el contenido ya documentado ahí.
+
+### Resultado obtenido
+
+Se obtuvo un README.md estructurado con: descripción, demo, estado de funcionalidades (mínimas y extra credits), stack tecnológico, estructura del proyecto (con justificación de la desviación respecto a la consigna), instrucciones de ejecución local y despliegue en GitHub Pages, y una sección de decisiones técnicas que remite a `LOG.md` sin duplicarlo. El estudiante revisó el contenido generado y aplicó ajustes propios antes de incorporarlo al repositorio.
+
+### Captura
+
+![README.md generado](capturas/etapa-7.png)

@@ -330,3 +330,27 @@ Reordenar y renombrar toda la nomenclatura de `id, clases, funciones, variables,
 
 - Crear el archivo README.md y hacer la revisión final.
 - Ver la posibilidad de crear las funcionalidades que otorgan "Extra Points".
+
+## Etapa 7 — Redacción de README.md
+
+**Fecha:** 2026-08-18
+
+### Objetivo
+
+Redactar el README.md del proyecto, hasta ahora vacío, cumpliendo con el entregable de documentación.
+
+### Decisiones tomadas
+
+- Se estructuró el README con un índice enlazado a cada sección, evitando duplicar contenido ya documentado en `LOG.md` y `documentacion/uso-ia.md`: el README resume y linkea a ambos archivos en vez de repetir el detalle de decisiones técnicas o del proceso con IA.
+- Se incluyó una tabla de estado de los extra credits (implementados, pendientes y parciales), para que quede explícito ante la corrección sin necesidad de revisar el código.
+- Se documentó explícitamente en el README la decisión del selector de formato HSL/HEX (en lugar de mostrar ambos simultáneamente), aclarando que responde a una consulta de ambigüedad validada con la cátedra, para que no se malinterprete contra la consigna original.
+- Se documentó y justificó la desviación entre la estructura de carpetas real del repositorio (código en la raíz, por requisito de GitHub Pages) y el árbol de entrega descrito literalmente en la consigna.
+- Se agregaron instrucciones de ejecución local y de despliegue en GitHub Pages.
+
+### Estado
+
+✅ Etapa completada y validada.
+
+### Próximo paso
+
+Evaluar implementación de extra credits restantes (bloqueo de colores, localStorage) según tiempo disponible.

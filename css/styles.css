@@ -262,7 +262,7 @@ section[aria-labelledby="palette-heading"] {
     grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
     gap: var(--space-md);
     justify-items: center;
-    background-color: var(--color-bg);
+    /* background-color: var(--color-bg); */
     padding: var(--space-md);
     border-radius: var(--border-radius);
 }
