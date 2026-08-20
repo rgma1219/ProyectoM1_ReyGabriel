@@ -15,6 +15,7 @@ Link GitHub Pages: https://rgma1219.github.io/ProyectoM1_ReyGabriel/
 - [Capturas del flujo principal](#capturas-del-flujo-principal)
 - [Funcionalidades](#funcionalidades)
     - [Alcance funcional mínimo](#alcance-funcional-mínimo)
+    - [Extra credits](#extra-credits)
     - [Decisiones de alcance (MVP)](#decisiones-de-alcance-mvp)
 - [Stack tecnológico](#stack-tecnológico)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -50,6 +51,17 @@ ColorFly permite generar paletas de colores aleatorias de 6, 8 o 9 colores. Cada
 - [x] HTML semántico (`header`, `main`, `footer`, `nav`, `section`, `fieldset`/`legend`).
 - [x] Accesibilidad básica: labels asociados, contraste verificado (WCAG AA), foco visible en todos los elementos interactivos.
 
+### Extra credits
+
+| Extra credit                                                  | Estado                                                                                                                                                                          |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Copiar código al portapapeles al hacer clic sobre un color    | ✅ Implementado                                                                                                                                                                 |
+| Guardado de paletas en localStorage                           | ✅ Implementado — sección "Paletas anteriores": guardado manual, historial persistente entre sesiones (hasta 10 paletas, FIFO), con opción de restaurar o eliminar cada entrada |
+| Animaciones sutiles (hover en swatches, transición del toast) | ✅ Implementado                                                                                                                                                                 |
+| Diseño responsive (no solicitado por la consigna)             | ✅ Implementado — 3 breakpoints (desktop, tablet, celular)                                                                                                                      |
+| Bloqueo de colores                                            | ⏳ Fuera de alcance (ver [Decisiones de alcance](#decisiones-de-alcance-mvp))                                                                                                   |
+| Mejoras visuales de UI                                        | 🔶 Parcial (layout de dos columnas en desktop, paleta de colores con contraste verificado)                                                                                      |
+
 ### Decisiones de alcance (MVP)
 
 Durante el desarrollo se evaluó la implementación del extra credit **bloqueo de colores**, y se decidió conscientemente dejarlo fuera de esta entrega por una cuestión de tiempo disponible, priorizando en su lugar el diseño responsive de la aplicación (no solicitado por la consigna, pero considerado necesario para poder mostrar el proyecto desde un celular).
@@ -62,7 +74,7 @@ Esta no fue una funcionalidad descartada por dificultad técnica, sino postergad
 
 Se prioriza documentar esto explícitamente para dejar en claro que fue una decisión de alcance de MVP, no una omisión.
 
-> **Nota sobre el formato de visualización:** la consigna original pedía mostrar HSL y HEX simultáneamente junto a cada color. Tras una consulta de ambigüedad con la cátedra, se definió en su lugar un selector que permite al usuario elegir el formato de visualización y copiado (HSL o HEX), generando siempre ambos valores internamente de forma válida. El detalle de esta decisión está en `LOG.md`, Etapa 6 (nueva revisión).
+> **Nota sobre el formato de visualización:** la consigna original pedía mostrar HSL y HEX simultáneamente junto a cada color. Tras una consulta de ambigüedad con la cátedra, se definió en su lugar un selector que permite al usuario elegir el formato de visualización y copiado (HSL o HEX), generando siempre ambos valores internamente de forma válida. El detalle de esta decisión está en `LOG.md`, Etapa 6 (revisión 2).
 
 ## Stack tecnológico
 

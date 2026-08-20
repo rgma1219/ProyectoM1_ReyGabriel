@@ -174,17 +174,22 @@ function saveHistory(history) {
 }
 
 function savePaletteToHistory(palette) {
-    const history = getHistory();
-    const newEntry = {
-        id: crypto.randomUUID(),
-        colors: palette.colors,
-        format: palette.format,
-    };
-    const updatedHistory = [newEntry, ...history].slice(0, HISTORY_LIMIT);
+    try {
+        const history = getHistory();
+        const newEntry = {
+            id: crypto.randomUUID(),
+            colors: palette.colors,
+            format: palette.format,
+        };
+        const updatedHistory = [newEntry, ...history].slice(0, HISTORY_LIMIT);
 
-    const success = saveHistory(updatedHistory);
-    renderHistory(updatedHistory);
-    showToast(success ? "Paleta guardada" : "No se pudo guardar la paleta");
+        const success = saveHistory(updatedHistory);
+        renderHistory(updatedHistory);
+        showToast(success ? "Paleta guardada" : "No se pudo guardar la paleta");
+    } catch (error) {
+        console.error("Error al guardar la paleta:", error);
+        showToast("No se pudo guardar la paleta");
+    }
 }
 
 function deletePaletteFromHistory(id) {
