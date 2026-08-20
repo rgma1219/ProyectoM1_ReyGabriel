@@ -93,7 +93,12 @@
 
             <section aria-labelledby="history-heading">
                 <h2 id="history-heading">Paletas anteriores</h2>
-                <div id="history-list"></div>
+                <p id="history-instruction">
+                    Todavía no guardaste ninguna paleta.
+                </p>
+                <ul id="history-list">
+                    <!-- Contenido dinámico inyectado por JS -->
+                </ul>
             </section>
 
             <section aria-labelledby="palette-heading">
@@ -107,6 +112,15 @@
                 <ul id="palette-list">
                     <!-- Contenido dinámico inyectado por JS -->
                 </ul>
+
+                <button
+                    type="button"
+                    id="save-btn"
+                    aria-label="Guardar paleta actual"
+                    hidden
+                >
+                    Guardar paleta
+                </button>
             </section>
         </main>
 

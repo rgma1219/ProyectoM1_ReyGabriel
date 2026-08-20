@@ -1,6 +1,6 @@
 # Uso de IA en el desarrollo de ColorFly
 
-Este documento registra cómo se utilizó IA (Claude, Anthropic) como asistente/tutor durante el desarrollo del proyecto, incluyendo el criterio de trabajo, los prompts principales y los resultados obtenidos en cada etapa.
+Este documento registra cómo se utilizó IA (Claude, Anthropic y Gemini, Alphabet) como asistente/tutor durante el desarrollo del proyecto, incluyendo el criterio de trabajo, los prompts principales y los resultados obtenidos en cada etapa.
 
 **Metodología de trabajo con la IA:** se definieron reglas explícitas desde el inicio: la IA no debía generar código salvo que se lo solicitara expresamente, y las soluciones debían debatirse primero en texto/pseudocódigo antes de implementarse. El objetivo fue usar la IA como mentor de criterio (arquitectura, semántica, accesibilidad), no como generador automático de código.
 
@@ -193,7 +193,7 @@ Se solicitó a la IA Gemini que haga una revisión archivo por archivo para que 
 
 ![Estructura final de script.js reorganizada](capturas/etapa-6f.png)
 
-## Etapa 8 — Redacción de README.md
+## Etapa 7 — Redacción de README.md
 
 ### Prompt utilizado (resumen)
 
@@ -206,3 +206,37 @@ Se obtuvo un README.md estructurado con: descripción, demo, estado de funcional
 ### Captura
 
 ![README.md generado](capturas/etapa-7.png)
+
+## Etapa 8 — Guardado de paletas en localStorage
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA analizar, como mentor y en etapas (sin generar código hasta pedirlo explícitamente), la implementación del extra credit de guardado de paletas. El proceso incluyó: definición del modelo de datos y comportamiento (guardado manual vs. automático, límite de entradas, comportamiento al restaurar), estructura HTML semántica y accesible de cada entrada del historial, estilos CSS siguiendo la organización numerada ya existente en el proyecto, y finalmente el JavaScript de la lógica de persistencia (lectura/escritura en localStorage, render dinámico, manejo de eventos por delegación).
+
+### Resultado obtenido
+
+Se implementó la funcionalidad completa: botón "Guardar paleta" condicional, historial persistente en localStorage con límite de 10 entradas (FIFO), cada entrada representada con mini-swatches y accesible mediante botones independientes para restaurar y eliminar. La IA señaló durante el proceso un riesgo de accesibilidad (evitar botones anidados) y ayudó a diagnosticar y corregir un bug de alineación visual en el CSS (`width: 100%` faltante en `.history-item`). El estudiante tomó las decisiones de diseño (comportamiento manual, sin fecha, alineación de botones) y validó cada paso antes de avanzar al siguiente.
+
+### Capturas
+
+![Historial de paletas guardadas](capturas/etapa-8a.png)
+
+![Historial de paletas guardadas](capturas/etapa-8b.png)
+
+## Etapa 9 — Diseño responsive (mobile, tablet, desktop)
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA, en rol de mentor, ayudar a diagnosticar y diseñar la adaptación responsive de la app a partir de un boceto propio del estudiante, definiendo primero el criterio de breakpoints (tablet y celular como layout compartido por ser dispositivos táctiles, distinto del layout de desktop) antes de escribir CSS. Durante la implementación surgieron dos bugs visuales (footer no pegado al fondo, y contenido recortado en el borde derecho); en ambos casos se pidió a la IA guiar el diagnóstico de la causa raíz antes de aplicar una corrección, en vez de parchear el síntoma directamente.
+
+### Resultado obtenido
+
+Se definieron 3 rangos de breakpoint con criterio de interacción (touch vs. mouse) en vez de solo ancho de pantalla, se ajustaron áreas táctiles mínimas siguiendo WCAG, y se corrigieron ambos bugs identificando primero su causa exacta (una regla de Grid heredada de una versión anterior del proyecto, y un elemento hijo desbordando su columna, detectado con un script de diagnóstico en consola en vez de prueba y error). El estudiante validó visualmente cada corrección en los tres rangos antes de dar la etapa por cerrada.
+
+### Captura
+
+![Layout responsive validado en desktop, tablet y celular](capturas/etapa-9.png)
+
+## Volver al README
+
+[Volver al Readme](./README.md)

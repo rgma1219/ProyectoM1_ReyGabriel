@@ -4,6 +4,8 @@
 
 Aplicación web estática e interactiva que genera paletas de colores aleatorias en formato HSL y HEX, a partir de un único botón principal.
 
+Link GitHub Pages: https://rgma1219.github.io/ProyectoM1_ReyGabriel/
+
 ---
 
 ## Índice
@@ -13,7 +15,7 @@ Aplicación web estática e interactiva que genera paletas de colores aleatorias
 - [Capturas del flujo principal](#capturas-del-flujo-principal)
 - [Funcionalidades](#funcionalidades)
     - [Alcance funcional mínimo](#alcance-funcional-mínimo)
-    - [Extra credits](#extra-credits)
+    - [Decisiones de alcance (MVP)](#decisiones-de-alcance-mvp)
 - [Stack tecnológico](#stack-tecnológico)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Cómo ejecutar el proyecto localmente](#cómo-ejecutar-el-proyecto-localmente)
@@ -34,7 +36,7 @@ ColorFly permite generar paletas de colores aleatorias de 6, 8 o 9 colores. Cada
 
 ## Capturas del flujo principal
 
-_Pendiente: agregar capturas o GIF mostrando el flujo principal de la app (selección de tamaño y formato → generar paleta → copiar un color) en `documentacion/capturas-app/`._
+![Animación de app en funcionamiento](./documentacion/capturas/animation-app.gif)
 
 ## Funcionalidades
 
@@ -47,6 +49,18 @@ _Pendiente: agregar capturas o GIF mostrando el flujo principal de la app (selec
 - [x] Microfeedback visible mediante toast (`role="status"`, `aria-live="polite"`) al copiar un color.
 - [x] HTML semántico (`header`, `main`, `footer`, `nav`, `section`, `fieldset`/`legend`).
 - [x] Accesibilidad básica: labels asociados, contraste verificado (WCAG AA), foco visible en todos los elementos interactivos.
+
+### Decisiones de alcance (MVP)
+
+Durante el desarrollo se evaluó la implementación del extra credit **bloqueo de colores**, y se decidió conscientemente dejarlo fuera de esta entrega por una cuestión de tiempo disponible, priorizando en su lugar el diseño responsive de la aplicación (no solicitado por la consigna, pero considerado necesario para poder mostrar el proyecto desde un celular).
+
+Esta no fue una funcionalidad descartada por dificultad técnica, sino postergada de forma deliberada: se llegó a analizar su impacto real antes de tomar la decisión, y quedó identificado como el próximo paso natural del proyecto:
+
+- **Lógica (JS):** requiere que `generatePalette()` reciba qué posiciones están bloqueadas y con qué color, regenerando solo las libres. Implica también definir el comportamiento al cambiar el tamaño de paleta con colores ya bloqueados (¿se mantienen? ¿se resetean?).
+- **HTML:** cada `.color-item` necesitaría un segundo botón (candado abierto/cerrado), hermano del swatch existente, siguiendo el mismo patrón de accesibilidad ya aplicado en el historial (dos botones independientes, nunca uno anidado dentro del otro).
+- **CSS:** un estado visual distinto para colores bloqueados (ícono superpuesto o borde diferenciado), con sus propios estados `:hover` / `:focus-visible`.
+
+Se prioriza documentar esto explícitamente para dejar en claro que fue una decisión de alcance de MVP, no una omisión.
 
 > **Nota sobre el formato de visualización:** la consigna original pedía mostrar HSL y HEX simultáneamente junto a cada color. Tras una consulta de ambigüedad con la cátedra, se definió en su lugar un selector que permite al usuario elegir el formato de visualización y copiado (HSL o HEX), generando siempre ambos valores internamente de forma válida. El detalle de esta decisión está en `LOG.md`, Etapa 6 (nueva revisión).
 

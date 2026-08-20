@@ -354,3 +354,94 @@ Redactar el README.md del proyecto, hasta ahora vacío, cumpliendo con el entreg
 ### Próximo paso
 
 Evaluar implementación de extra credits restantes (bloqueo de colores, localStorage) según tiempo disponible.
+
+## Etapa 8 — Guardado de paletas en localStorage
+
+**Fecha:** 2026-08-19
+
+### Objetivo
+
+Implementar el extra credit de guardado de paletas, permitiendo al usuario guardar manualmente la paleta activa, verla en un historial persistente entre sesiones, restaurarla o eliminarla.
+
+### Decisiones de diseño
+
+- **Guardado manual**, mediante un botón "Guardar paleta" dentro de la sección "Tu paleta", visible solo cuando existe una paleta generada (mismo patrón de `hidden` ya usado en `#palette-instruction`, evaluado y descartado el uso de clase CSS por no requerir animación de entrada/salida como sí tiene el toast).
+- **Modelo de datos** por entrada: `{ id, colors, format }`, sin fecha de creación (decisión explícita de no guardar ese dato).
+- **Límite de 10 paletas** guardadas, con descarte de la más antigua al superar el límite (FIFO).
+- **Restaurar** una paleta del historial la trae de vuelta como la paleta activa en "Tu paleta" (no solo vista previa).
+- **`#history-list`** se corrigió de `<div>` a `<ul>` semántico, por consistencia con `#palette-list`.
+- Cada entrada del historial usa **dos botones hermanos** (restaurar y eliminar), nunca uno anidado dentro del otro, para no romper la validez del HTML ni la navegación accesible.
+- El grupo de mini-swatches (decorativo) usa `aria-hidden="true"` en cada punto individual; el `aria-label` descriptivo ("Restaurar/Eliminar paleta de N colores") vive en el `<button>` contenedor.
+- Se agregó la variable `--color-danger` a `:root` para mantener el 100% de los colores del proyecto centralizados en variables, evitando el único valor hardcodeado que había quedado en `.history-delete-btn:hover`.
+- Se limpió una línea de CSS comentada y obsoleta en `#palette-list` (resabio de la Etapa 7).
+- Cada acción (guardar, restaurar, eliminar, y error de guardado) dispara el toast ya existente, reutilizando `showToast()` sin duplicar lógica.
+
+### Bug detectado y corregido durante la etapa
+
+El grupo de mini-swatches y el botón de eliminar de cada entrada del historial no quedaban alineados de forma consistente entre paletas de distinto tamaño (6/8/9 colores): el botón eliminar se movía en vez de quedar fijo al borde derecho de la fila. Causa: `.history-item` no estaba tomando el ancho completo de `#history-list`, por lo que `justify-content: space-between` no tenía espacio real para repartir. Se corrigió agregando `width: 100%` explícito a `.history-item`.
+
+### Estado
+
+✅ Funcionalidad completa: guardar, restaurar, eliminar y persistencia entre recargas de página, validada manualmente.
+
+### Próximo paso
+
+Evaluar implementación del extra credit restante (bloqueo de colores) y construir la reglas CSS para que la aplicación sea responsive.
+
+## Etapa 9 — Diseño responsive (mobile, tablet, desktop)
+
+**Fecha:** 2026-08-19
+
+### Objetivo
+
+Adaptar la aplicación, originalmente pensada para desktop, a un layout funcional en tablet y celular, permitiendo mostrar el proyecto desde el teléfono sin necesidad de una computadora.
+
+### Decisiones de diseño
+
+- Se definieron **3 cortes de breakpoint** en vez de uno solo: desktop (>1024px, sin cambios respecto al diseño original), tablet (601px–1024px) y celular (≤600px).
+- El criterio de corte no fue "ancho de pantalla" sino **tipo de interacción**: tablet y celular comparten el mismo layout estructural (una sola columna, tipo "cinta", con scroll natural de página), porque ambos son dispositivos táctiles donde el layout de paneles con scroll interno (usado en desktop) resulta incómodo. La diferencia entre tablet y celular es de **densidad** (3 columnas de paleta en tablet, 2 en celular), no de estructura.
+- Se implementó mediante dos `@media query` anidados en cascada: uno compartido para ≤1024px (tablet + celular) y otro más específico para ≤600px que sobreescribe puntualmente la cantidad de columnas de la paleta.
+- Se ajustaron áreas táctiles mínimas (~44px, criterio WCAG) en los controles de selección de tamaño y en los botones de restaurar/eliminar del historial, aplicado tanto a tablet como a celular por ser ambos dispositivos táctiles.
+- Se decidió cambiar el header y el footer de fila horizontal a columna centrada en el rango táctil, siguiendo boceto propio validado antes de escribir CSS.
+
+### Bugs detectados y corregidos durante la etapa
+
+1. **Footer no pegado al fondo en mobile/tablet.** Causa: el `@media` original sacaba el `1fr` de `grid-template-rows` del `body` (heredado de una versión previa del proyecto), y como `body` tenía `height: 100%` fijo, Grid repartía el espacio sobrante entre las tres filas en partes iguales, "flotando" el footer en el medio de la página. Corregido reemplazando `height: 100%` por `min-height: 100%` y dejando que el `body` heredara su `grid-template-rows: auto 1fr auto` original también en mobile/tablet.
+
+### Estado
+
+✅ Layout validado visualmente en los tres rangos (desktop, tablet, celular), sin overflow horizontal ni problemas de footer.
+
+## Etapa 10 — Decisión de alcance: bloqueo de colores fuera del MVP
+
+**Fecha:** 2026-08-19
+
+### Objetivo
+
+Evaluar si implementar el extra credit de bloqueo de colores antes de la entrega, y decidir su alcance.
+
+### Análisis realizado
+
+Antes de decidir, se analizó el impacto real de la funcionalidad en las tres capas del proyecto:
+
+- **JS:** modificaría la firma y lógica interna de `generatePalette()`, que pasaría de generar N colores random sin memoria, a generar solo los no bloqueados, respetando los que sí lo están. Abre además una pregunta de UX no trivial: qué pasa con los colores bloqueados si el usuario cambia el tamaño de paleta.
+- **HTML:** cada `.color-item` necesitaría un segundo botón (candado), hermano del swatch existente — mismo patrón de accesibilidad ya resuelto para el historial (restaurar/eliminar), pero aplicado a cada color individual de la paleta activa.
+- **CSS:** un estado visual nuevo (bloqueado vs. libre) con sus propios `:hover`/`:focus-visible`.
+
+Se concluyó que, si bien el patrón técnico ya es conocido (reutilizable del trabajo hecho en la Etapa 8), no es un cambio aislado: toca funciones core ya validadas y funcionando.
+
+### Decisión
+
+Se decide **postergar el bloqueo de colores** fuera de esta entrega, priorizando en su lugar el diseño responsive de la aplicación (Etapa 9), evaluado como más necesario dado el objetivo de poder mostrar el proyecto funcionando desde un celular sin depender de una computadora.
+
+### Estado
+
+✅ Decisión tomada y documentada como alcance consciente de MVP, no como funcionalidad descartada por dificultad. Reflejada también en `README.md`, sección "Decisiones de alcance (MVP)".
+
+### Próximo paso
+
+Revisión final del proyecto completo contra la rúbrica de corrección, antes de la entrega.
+
+## Volver al README
+
+[Volver al Readme](./README.md)

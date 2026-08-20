@@ -74,9 +74,16 @@ const paletteList = document.getElementById("palette-list");
 const generateBtn = document.getElementById("generate-btn");
 const toast = document.getElementById("toast");
 const paletteInstruction = document.getElementById("palette-instruction");
+const saveBtn = document.getElementById("save-btn");
+const historyList = document.getElementById("history-list");
+const historyInstruction = document.getElementById("history-instruction");
 
+let currentPalette = null; // { colors: [...], format: "hsl" | "hex" }
 let toastTimer = null;
 let toastHideTimer = null;
+
+const HISTORY_KEY = "colorfly-history";
+const HISTORY_LIMIT = 10;
 
 /* ============================
     3. PALETTE LOGIC & RENDER
@@ -144,7 +151,112 @@ function renderPalette(colors, format) {
 }
 
 /* ============================
-    4. TOAST (FEEDBACK)
+    4. HISTORY LOGIC & STORAGE
+   ============================ */
+function getHistory() {
+    try {
+        const raw = localStorage.getItem(HISTORY_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch (error) {
+        console.error("Error al leer el historial:", error);
+        return [];
+    }
+}
+
+function saveHistory(history) {
+    try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        return true;
+    } catch (error) {
+        console.error("Error al guardar el historial:", error);
+        return false;
+    }
+}
+
+function savePaletteToHistory(palette) {
+    const history = getHistory();
+    const newEntry = {
+        id: crypto.randomUUID(),
+        colors: palette.colors,
+        format: palette.format,
+    };
+    const updatedHistory = [newEntry, ...history].slice(0, HISTORY_LIMIT);
+
+    const success = saveHistory(updatedHistory);
+    renderHistory(updatedHistory);
+    showToast(success ? "Paleta guardada" : "No se pudo guardar la paleta");
+}
+
+function deletePaletteFromHistory(id) {
+    const history = getHistory();
+    const updatedHistory = history.filter((entry) => entry.id !== id);
+
+    const success = saveHistory(updatedHistory);
+    renderHistory(updatedHistory);
+    showToast(success ? "Paleta eliminada" : "No se pudo eliminar la paleta");
+}
+
+function restorePaletteFromHistory(id) {
+    const history = getHistory();
+    const entry = history.find((item) => item.id === id);
+    if (!entry) return;
+
+    currentPalette = { colors: entry.colors, format: entry.format };
+    renderPalette(entry.colors, entry.format);
+    saveBtn.hidden = false;
+    showToast("Paleta restaurada");
+}
+
+function renderHistory(history) {
+    historyList.innerHTML = "";
+
+    if (history.length === 0) {
+        historyInstruction.hidden = false;
+        return;
+    }
+    historyInstruction.hidden = true;
+
+    history.forEach((entry) => {
+        const li = document.createElement("li");
+        li.className = "history-item";
+
+        const restoreBtn = document.createElement("button");
+        restoreBtn.type = "button";
+        restoreBtn.className = "history-restore-btn";
+        restoreBtn.dataset.action = "restore";
+        restoreBtn.dataset.id = entry.id;
+        restoreBtn.setAttribute(
+            "aria-label",
+            `Restaurar paleta de ${entry.colors.length} colores`,
+        );
+
+        entry.colors.forEach((color) => {
+            const miniSwatch = document.createElement("span");
+            miniSwatch.className = "mini-swatch";
+            miniSwatch.style.backgroundColor = color.hex;
+            miniSwatch.setAttribute("aria-hidden", "true");
+            restoreBtn.appendChild(miniSwatch);
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "history-delete-btn";
+        deleteBtn.dataset.action = "delete";
+        deleteBtn.dataset.id = entry.id;
+        deleteBtn.setAttribute(
+            "aria-label",
+            `Eliminar paleta de ${entry.colors.length} colores`,
+        );
+        deleteBtn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M9 3v1H4v2h1v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3H9zm2 5h2v9h-2V8zm-4 0h2v9H7V8zm8 0h2v9h-2V8z"/></svg>`;
+
+        li.appendChild(restoreBtn);
+        li.appendChild(deleteBtn);
+        historyList.appendChild(li);
+    });
+}
+
+/* ============================
+    5. TOAST (FEEDBACK)
    ============================ */
 function showToast(message) {
     clearTimeout(toastTimer);
@@ -163,13 +275,16 @@ function showToast(message) {
 }
 
 /* ============================
-    5. EVENT HANDLERS
+    6. EVENT HANDLERS
    ============================ */
 function handleGenerateClick() {
     const size = getSelectedSize();
     const format = getSelectedFormat();
     const colors = generatePalette(size);
+    currentPalette = { colors, format };
+
     renderPalette(colors, format);
+    saveBtn.hidden = false;
 }
 
 async function handlePaletteClick(event) {
@@ -187,11 +302,31 @@ async function handlePaletteClick(event) {
     }
 }
 
+function handleSaveClick() {
+    if (!currentPalette) return;
+    savePaletteToHistory(currentPalette);
+}
+
+function handleHistoryClick(event) {
+    const button = event.target.closest("button");
+    if (!button) return;
+
+    const { action, id } = button.dataset;
+
+    if (action === "restore") {
+        restorePaletteFromHistory(id);
+    } else if (action === "delete") {
+        deletePaletteFromHistory(id);
+    }
+}
+
 /* ============================
-    6. EVENT LISTENERS & INITIALIZATION
+    7. EVENT LISTENERS & INITIALIZATION
    ============================ */
 generateBtn.addEventListener("click", handleGenerateClick);
 paletteList.addEventListener("click", handlePaletteClick);
+saveBtn.addEventListener("click", handleSaveClick);
+historyList.addEventListener("click", handleHistoryClick);
 
-// Genera una paleta inicial al cargar la página
-// handleGenerateClick();
+// Carga el historial guardado en localStorage al iniciar la página
+renderHistory(getHistory());

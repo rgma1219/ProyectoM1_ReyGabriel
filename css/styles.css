@@ -8,6 +8,7 @@
     --color-surface: #ffffff;
     --color-text-secondary: #5c6478;
     --color-text-on-brand: #ffffff;
+    --color-danger: #b3261e;
 
     /* Espaciado */
     --space-xs: 0.5rem;
@@ -105,14 +106,14 @@ body {
     max-width: var(--max-width);
     width: 100%;
     margin: 0 auto;
-    padding: var(--space-lg) var(--space-md);
+    padding: var(--space-md) var(--space-md);
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:
         "config palette"
         "history palette";
-    gap: var(--space-lg);
+    gap: var(--space-md);
     min-height: 0;
 }
 
@@ -120,7 +121,7 @@ section {
     background-color: var(--color-surface);
     border: 1px solid rgba(45, 53, 70, 0.06);
     border-radius: var(--border-radius);
-    padding: var(--space-lg);
+    padding: var(--space-md);
     box-shadow: 0 2px 8px rgba(45, 53, 70, 0.06);
 }
 
@@ -141,7 +142,7 @@ section {
     background-color: var(--color-surface);
     border: 1px solid rgba(45, 53, 70, 0.06);
     border-radius: var(--border-radius);
-    padding: var(--space-lg);
+    padding: var(--space-md);
     box-shadow: 0 2px 8px rgba(45, 53, 70, 0.06);
 }
 
@@ -220,7 +221,6 @@ section[aria-labelledby="palette-heading"] {
     outline-offset: 2px;
 }
 
-/* Botón principal */
 .actions {
     width: 100%;
 }
@@ -247,6 +247,32 @@ section[aria-labelledby="palette-heading"] {
     outline-offset: 3px;
 }
 
+#save-btn {
+    align-self: flex-start;
+    background-color: transparent;
+    color: var(--color-brand);
+    border: 1px solid var(--color-brand);
+    border-radius: var(--border-radius);
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: var(--space-md);
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+#save-btn:hover {
+    background-color: var(--color-brand);
+    color: var(--color-text-on-brand);
+}
+
+#save-btn:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+}
+
 /* ============================
     6. MUESTRAS DE COLOR (PALETTE)
    ============================ */
@@ -259,10 +285,9 @@ section[aria-labelledby="palette-heading"] {
 #palette-list {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
     gap: var(--space-md);
     justify-items: center;
-    /* background-color: var(--color-bg); */
     padding: var(--space-md);
     border-radius: var(--border-radius);
 }
@@ -276,8 +301,8 @@ section[aria-labelledby="palette-heading"] {
 }
 
 .swatch {
-    width: 4rem;
-    height: 4rem;
+    width: 5rem;
+    height: 5rem;
     border-radius: 50%;
     border: none;
     cursor: pointer;
@@ -301,7 +326,80 @@ section[aria-labelledby="palette-heading"] {
 }
 
 /* ============================
-    7. TOAST & SOCIAL NAV
+    7. HISTORIAL DE PALETAS
+   ============================ */
+#history-instruction {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+}
+
+#history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    width: 100%;
+}
+
+.history-restore-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: transparent;
+    border: 1px solid rgba(45, 53, 70, 0.12);
+    border-radius: var(--border-radius);
+    padding: var(--space-xs);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.history-restore-btn:hover {
+    border-color: var(--color-brand);
+}
+
+.history-restore-btn:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+}
+
+.mini-swatch {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.history-delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: var(--space-xs);
+    transition: color 0.15s ease;
+}
+
+.history-delete-btn:hover {
+    color: var(--color-danger);
+}
+
+.history-delete-btn:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ============================
+    8. TOAST & SOCIAL NAV
    ============================ */
 .toast {
     position: fixed;
@@ -349,12 +447,14 @@ section[aria-labelledby="palette-heading"] {
 }
 
 /* ============================
-    8. RESPONSIVE DESIGN
+    9. RESPONSIVE DESIGN
    ============================ */
-@media (max-width: 768px) {
+
+/* --- Tablet y celular (dispositivos táctiles) --- */
+@media (max-width: 1024px) {
     body {
-        grid-template-rows: auto auto auto;
-        overflow-y: auto;
+        height: auto;
+        min-height: 100%;
     }
 
     .app-main {
@@ -364,5 +464,61 @@ section[aria-labelledby="palette-heading"] {
             "config"
             "palette"
             "history";
+    }
+
+    section[aria-labelledby="history-heading"],
+    section[aria-labelledby="palette-heading"] {
+        overflow-y: visible;
+        min-height: auto;
+    }
+
+    .app-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: var(--space-xs);
+    }
+
+    /* Áreas táctiles mínimas (~44px) */
+    .config-selector label {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .history-restore-btn,
+    .history-delete-btn {
+        min-height: 2.75rem;
+    }
+
+    .history-delete-btn {
+        min-width: 2.75rem;
+    }
+
+    #palette-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- Celular (pisa la regla de columnas del bloque anterior) --- */
+@media (max-width: 600px) {
+    .app-main {
+        padding: 0;
+    }
+
+    #palette-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .app-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: var(--space-md)
+            max(var(--space-md), calc((100% - var(--max-width)) / 2));
+        gap: var(--space-xs);
+        background-color: var(--color-surface);
+        border-top: 1px solid rgba(45, 53, 70, 0.08);
+        color: var(--color-text-secondary);
+        font-size: var(--text-sm);
     }
 }
