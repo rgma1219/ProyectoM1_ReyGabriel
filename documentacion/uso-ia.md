@@ -237,6 +237,20 @@ Se definieron 3 rangos de breakpoint con criterio de interacción (touch vs. mou
 
 ![Layout responsive validado en desktop, tablet y celular](capturas/etapa-9.png)
 
-## Volver al README
+## Etapa 10 — Tooltip de ayuda contextual en swatches
+
+### Prompt utilizado (resumen)
+
+Se solicitó a la IA agregar un mensaje visible al pasar el mouse sobre cada swatch, indicando que el clic copia el color. Tras la primera propuesta, se iteró varias veces a partir de feedback visual directo del estudiante (demasiado invasivo, colores muy fuertes, tapaba la paleta), hasta llegar a un badge pequeño en la esquina superior derecha del swatch.
+
+### Resultado obtenido
+
+Se implementó el tooltip íntegramente en CSS (pseudo-elemento `::after`), sin tocar HTML ni JS. La IA señaló dos riesgos a validar por el estudiante: posible recorte del tooltip en la primera fila de la grilla por el `overflow-y` de la sección, y la limitación de que el efecto `:hover`/`:focus-visible` no es perceptible en dispositivos táctiles. Ambos puntos fueron validados visualmente por el estudiante antes de cerrar la etapa.
+
+### Captura
+
+![Tooltip de ayuda al pasar el mouse sobre un swatch](capturas/etapa-10.png)
+
+---
 
 [Volver al Readme](./README.md)

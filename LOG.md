@@ -438,10 +438,26 @@ Se decide **postergar el bloqueo de colores** fuera de esta entrega, priorizando
 
 ✅ Decisión tomada y documentada como alcance consciente de MVP, no como funcionalidad descartada por dificultad. Reflejada también en `README.md`, sección "Decisiones de alcance (MVP)".
 
-### Próximo paso
+## Etapa 10 — Tooltip de ayuda contextual en swatches
 
-Revisión final del proyecto completo contra la rúbrica de corrección, antes de la entrega.
+**Fecha:** 2026-08-19
 
-## Volver al README
+### Objetivo
 
-[Volver al Readme](./README.md)
+Agregar una ayuda visual contextual sobre cada swatch de la paleta, indicando que al hacer clic se copia el color, como refuerzo del microfeedback existente (hasta ahora solo confirmaba _después_ de copiar, vía toast).
+
+### Decisiones de diseño
+
+- Implementado 100% en CSS, mediante un pseudo-elemento `.swatch::after` con `content` fijo — no requirió cambios en HTML ni en `script.js`, ya que el texto es igual para todos los swatches.
+- Se agregó la variable `--text-xs: 0.75rem` a `:root`, al no existir un tamaño de fuente lo suficientemente chico en la escala tipográfica previa.
+- Se iteró el diseño visual en varios pasos a partir de feedback directo: de un bloque sólido de color de marca posicionado debajo del swatch, a una versión más discreta (fondo claro, borde sutil, tipografía chica) y finalmente reposicionado como badge en la esquina superior derecha del swatch, por resultar menos invasivo sobre la paleta.
+- Se disparó tanto en `:hover` como en `:focus-visible`, siguiendo el mismo criterio de accesibilidad aplicado en todo el proyecto (que la interacción no dependa exclusivamente del mouse).
+- Se identificó y aceptó conscientemente una limitación: al depender de `:hover`/`:focus-visible`, este tooltip no es funcional en dispositivos táctiles (tablet/celular), quedando como un refuerzo exclusivo de la experiencia de escritorio. El toast de confirmación posterior al copiado sigue funcionando igual en todos los dispositivos.
+
+### Estado
+
+✅ Etapa completada y validada visualmente.
+
+---
+
+[Volver al RADME](./README.md)
